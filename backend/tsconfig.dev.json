@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "ts-node": {
+    "esm": true,
+    "experimentalEsm": true,
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "ES2020"
+    }
+  }
+}
