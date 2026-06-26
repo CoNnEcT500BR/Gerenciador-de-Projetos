@@ -2,13 +2,9 @@ export default defineNuxtConfig({
   ssr: true,
   modules: ['@pinia/nuxt'],
   css: ['@/assets/css/tailwind.css'],
-  vite: {
-    css: {
-      postcss: {
-        plugins: [
-          require('@tailwindcss/postcss')
-        ]
-      }
+  postcss: {
+    plugins: {
+      '@tailwindcss/postcss': {}
     }
   },
   runtimeConfig: {

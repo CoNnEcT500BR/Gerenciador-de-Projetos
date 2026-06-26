@@ -1,9 +1,9 @@
-import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { hasInjectionContext, getCurrentInstance, defineComponent, createElementBlock, shallowRef, provide, cloneVNode, h, inject, computed, unref, shallowReactive, ref, Suspense, Fragment, createApp, watch, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, reactive, effectScope, defineAsyncComponent, mergeProps, getCurrentScope, toRef, withCtx, nextTick, isReadonly, isRef, toValue, toRaw, useSSRContext, isShallow, isReactive } from 'vue';
-import { p as parseURL$1, e as encodePath$1, l as decodePath, m as hasProtocol, n as isScriptProtocol, o as joinURL, w as withQuery, q as sanitizeStatusCode, r as getContext, $ as $fetch, v as defu, f as createError$1, x as executeAsync, y as hash } from '../_/nitro.mjs';
+import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { ref, computed, hasInjectionContext, getCurrentInstance, defineComponent, createElementBlock, shallowRef, provide, cloneVNode, h, inject, Suspense, Fragment, useSSRContext, createApp, shallowReactive, unref, watch, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, reactive, effectScope, defineAsyncComponent, mergeProps, getCurrentScope, toRef, isReadonly, isRef, toValue, toRaw, isShallow, isReactive, nextTick } from 'vue';
+import { p as parseURL$1, e as encodePath$1, l as decodePath, m as hasProtocol, n as isScriptProtocol, o as joinURL, w as withQuery, q as sanitizeStatusCode, r as getContext, $ as $fetch, f as createError$1, v as executeAsync, x as hash, y as defu } from '../_/nitro.mjs';
 import { b as baseURL } from '../routes/renderer.mjs';
 import { setActivePinia, createPinia, shouldHydrate } from 'pinia';
 import { isPlainObject } from '@vue/shared';
-import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode } from 'vue/server-renderer';
+import { ssrRenderComponent, ssrRenderSuspense, ssrRenderVNode } from 'vue/server-renderer';
 import 'node:http';
 import 'node:https';
 import 'node:events';
@@ -285,7 +285,6 @@ if (!globalThis.$fetch) {
 if (!("global" in globalThis)) {
   globalThis.global = globalThis;
 }
-const appLayoutTransition = false;
 const nuxtLinkDefaults = { "componentName": "NuxtLink" };
 const asyncDataDefaults = { "deep": false };
 const fetchDefaults = {};
@@ -508,7 +507,7 @@ globalThis._importMeta_.url.replace(/\/app\/.*$/, "/");
 const useRouter = () => {
   return useNuxtApp()?.$router;
 };
-const useRoute$1 = () => {
+const useRoute = () => {
   if (hasInjectionContext()) {
     return inject(PageRouteSymbol, useNuxtApp()._route);
   }
@@ -658,11 +657,11 @@ const matcher = (m, p) => {
   return [];
 };
 const _routeRulesMatcher = (path) => defu({}, ...matcher("", typeof path === "string" ? path.toLowerCase() : path).map((r) => r.data).reverse());
-const routeRulesMatcher$1 = _routeRulesMatcher;
+const routeRulesMatcher = _routeRulesMatcher;
 function getRouteRules(arg) {
   const path = typeof arg === "string" ? arg : arg.path;
   try {
-    return routeRulesMatcher$1(path.toLowerCase());
+    return routeRulesMatcher(path.toLowerCase());
   } catch (e) {
     console.error("[nuxt] Error matching route rules.", e);
     return {};
@@ -740,9 +739,6 @@ const viewDepthKey = /* @__PURE__ */ Symbol("");
 const routerKey = /* @__PURE__ */ Symbol("");
 const routeLocationKey = /* @__PURE__ */ Symbol("");
 const routerViewLocationKey = /* @__PURE__ */ Symbol("");
-function useRoute(_name) {
-  return inject(routeLocationKey);
-}
 const HASH_RE = /#/g;
 const AMPERSAND_RE = /&/g;
 const SLASH_RE = /\//g;
@@ -2003,39 +1999,36 @@ function createRouter(options) {
   return router;
 }
 global.__VUE_PROD_DEVTOOLS__ = false;
-function toArray$1(value) {
+function toArray(value) {
   return Array.isArray(value) ? value : [value];
 }
 const _routes = [
   {
     name: "dashboard",
     path: "/dashboard",
-    component: () => import('./dashboard-hy8qv8KP.mjs')
+    component: () => import('./dashboard-CTOAWCsO.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-YXRtvTTP.mjs')
+    component: () => import('./login-Cp4tqQdn.mjs')
   },
   {
     name: "profile",
     path: "/profile",
-    component: () => import('./profile-B4S8fF1b.mjs')
+    component: () => import('./profile-DiezgZuz.mjs')
   },
   {
     name: "register",
     path: "/register",
-    component: () => import('./register-C2AahsFO.mjs')
+    component: () => import('./register-DuL5VDrO.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-DGL4PMMF.mjs')
+    component: () => import('./index-DY4nzpho.mjs')
   }
 ];
-const _wrapInTransition = (props, children) => {
-  return { default: () => children.default?.() };
-};
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
 const ROUTE_KEY_SYMBOLS_RE = /(:\w+)[?+*]/g;
 const ROUTE_KEY_NORMAL_RE = /:\w+/g;
@@ -2057,23 +2050,6 @@ function isChangingPage(to, from) {
     return false;
   }
   return true;
-}
-function toArray(value) {
-  return Array.isArray(value) ? value : [value];
-}
-function _mergeTransitionProps(routeProps) {
-  const _props = [];
-  for (const prop of routeProps) {
-    if (!prop) {
-      continue;
-    }
-    _props.push({
-      ...prop,
-      onAfterLeave: prop.onAfterLeave ? toArray(prop.onAfterLeave) : void 0,
-      onBeforeLeave: prop.onBeforeLeave ? toArray(prop.onBeforeLeave) : void 0
-    });
-  }
-  return defu(..._props);
 }
 const routerOptions0 = {
   scrollBehavior(to, from, savedPosition) {
@@ -2292,7 +2268,7 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
           if (!componentMiddleware) {
             continue;
           }
-          for (const entry2 of toArray$1(componentMiddleware)) {
+          for (const entry2 of toArray(componentMiddleware)) {
             middlewareEntries.add(entry2);
           }
         }
@@ -2412,7 +2388,7 @@ const revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms = /* @__
     }
   }
 });
-const __nuxt_component_1 = defineComponent({
+defineComponent({
   name: "ServerPlaceholder",
   render() {
     return createElementBlock("div");
@@ -2940,159 +2916,6 @@ const plugins = [
   plugin,
   components_plugin_4kY4pyzJIYX99vmMAAIorFf3CnAaptHitJgf7JxiED8
 ];
-const layouts = {};
-const routeRulesMatcher = _routeRulesMatcher;
-const LayoutLoader = defineComponent({
-  name: "LayoutLoader",
-  inheritAttrs: false,
-  props: {
-    name: String,
-    layoutProps: Object
-  },
-  setup(props, context) {
-    return () => h(layouts[props.name], props.layoutProps, context.slots);
-  }
-});
-const nuxtLayoutProps = {
-  name: {
-    type: [String, Boolean, Object],
-    default: null
-  },
-  fallback: {
-    type: [String, Object],
-    default: null
-  }
-};
-const __nuxt_component_0 = defineComponent({
-  name: "NuxtLayout",
-  inheritAttrs: false,
-  props: nuxtLayoutProps,
-  setup(props, context) {
-    const nuxtApp = useNuxtApp();
-    const injectedRoute = inject(PageRouteSymbol);
-    const shouldUseEagerRoute = !injectedRoute || injectedRoute === useRoute$1();
-    const route = shouldUseEagerRoute ? useRoute() : injectedRoute;
-    const layout = computed(() => {
-      let layout2 = unref(props.name) ?? route?.meta.layout ?? routeRulesMatcher(route?.path).appLayout ?? "default";
-      if (layout2 && !(layout2 in layouts)) {
-        if (props.fallback) {
-          layout2 = unref(props.fallback);
-        }
-      }
-      return layout2;
-    });
-    const layoutRef = shallowRef();
-    context.expose({ layoutRef });
-    const done = nuxtApp.deferHydration();
-    let lastLayout;
-    return () => {
-      const hasLayout = !!layout.value && layout.value in layouts;
-      const hasTransition = hasLayout && !!(route?.meta.layoutTransition ?? appLayoutTransition);
-      const transitionProps = hasTransition && _mergeTransitionProps([
-        route?.meta.layoutTransition,
-        appLayoutTransition,
-        {
-          onBeforeLeave() {
-            nuxtApp["~transitionPromise"] = new Promise((resolve) => {
-              nuxtApp["~transitionFinish"] = resolve;
-            });
-          },
-          onAfterLeave() {
-            nuxtApp["~transitionFinish"]?.();
-            delete nuxtApp["~transitionFinish"];
-            delete nuxtApp["~transitionPromise"];
-          }
-        }
-      ]);
-      const previouslyRenderedLayout = lastLayout;
-      lastLayout = layout.value;
-      return _wrapInTransition(transitionProps, {
-        default: () => h(
-          Suspense,
-          {
-            suspensible: true,
-            onResolve: async () => {
-              await nextTick(done);
-            }
-          },
-          {
-            default: () => h(
-              LayoutProvider,
-              {
-                layoutProps: mergeProps(context.attrs, route.meta.layoutProps ?? {}, { ref: layoutRef }),
-                key: layout.value || void 0,
-                name: layout.value,
-                shouldProvide: !props.name,
-                isRenderingNewLayout: (name) => {
-                  return name !== previouslyRenderedLayout && name === layout.value;
-                },
-                hasTransition
-              },
-              context.slots
-            )
-          }
-        )
-      }).default();
-    };
-  }
-});
-const LayoutProvider = defineComponent({
-  name: "NuxtLayoutProvider",
-  inheritAttrs: false,
-  props: {
-    name: {
-      type: [String, Boolean]
-    },
-    layoutProps: {
-      type: Object
-    },
-    hasTransition: {
-      type: Boolean
-    },
-    shouldProvide: {
-      type: Boolean
-    },
-    isRenderingNewLayout: {
-      type: Function,
-      required: true
-    }
-  },
-  setup(props, context) {
-    const name = props.name;
-    if (props.shouldProvide) {
-      provide(LayoutMetaSymbol, {
-        // When name=false, always return true so NuxtPage doesn't skip rendering
-        isCurrent: (route) => name === false || name === (route.meta.layout ?? routeRulesMatcher(route.path).appLayout ?? "default")
-      });
-    }
-    const injectedRoute = inject(PageRouteSymbol);
-    const isNotWithinNuxtPage = injectedRoute && injectedRoute === useRoute$1();
-    if (isNotWithinNuxtPage) {
-      const vueRouterRoute = useRoute();
-      const reactiveChildRoute = {};
-      for (const _key in vueRouterRoute) {
-        const key = _key;
-        Object.defineProperty(reactiveChildRoute, key, {
-          enumerable: true,
-          get: () => {
-            return props.isRenderingNewLayout(props.name) ? vueRouterRoute[key] : injectedRoute[key];
-          }
-        });
-      }
-      provide(PageRouteSymbol, shallowReactive(reactiveChildRoute));
-    }
-    return () => {
-      if (!name || typeof name === "string" && !(name in layouts)) {
-        return context.slots.default?.();
-      }
-      return h(
-        LayoutLoader,
-        { key: name, layoutProps: props.layoutProps, name },
-        context.slots
-      );
-    };
-  }
-});
 const defineRouteProvider = (name = "RouteProvider") => defineComponent({
   name,
   props: {
@@ -3125,7 +2948,7 @@ const defineRouteProvider = (name = "RouteProvider") => defineComponent({
   }
 });
 const RouteProvider = defineRouteProvider();
-const __nuxt_component_2 = defineComponent({
+const __nuxt_component_0 = defineComponent({
   name: "NuxtPage",
   inheritAttrs: false,
   props: {
@@ -3176,40 +2999,34 @@ function normalizeSlot(slot, data) {
   const slotContent = slot(data);
   return slotContent.length === 1 ? h(slotContent[0]) : h(Fragment, void 0, slotContent);
 }
-const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
+function useTheme() {
+  const theme = ref("dark");
+  const isDark = computed(() => theme.value === "dark");
+  function initTheme() {
+    return;
   }
-  return target;
-};
-const _sfc_main$2 = {};
-function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
-  const _component_NuxtLayout = __nuxt_component_0;
-  const _component_NuxtRouteAnnouncer = __nuxt_component_1;
-  const _component_NuxtPage = __nuxt_component_2;
-  _push(ssrRenderComponent(_component_NuxtLayout, _attrs, {
-    default: withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        _push2(ssrRenderComponent(_component_NuxtRouteAnnouncer, null, null, _parent2, _scopeId));
-        _push2(ssrRenderComponent(_component_NuxtPage, null, null, _parent2, _scopeId));
-      } else {
-        return [
-          createVNode(_component_NuxtRouteAnnouncer),
-          createVNode(_component_NuxtPage)
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
+  function toggleTheme() {
+    theme.value = theme.value === "dark" ? "light" : "dark";
+  }
+  return { theme, isDark, initTheme, toggleTheme };
 }
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
+  __name: "app",
+  __ssrInlineRender: true,
+  setup(__props) {
+    useTheme();
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_NuxtPage = __nuxt_component_0;
+      _push(ssrRenderComponent(_component_NuxtPage, _attrs, null, _parent));
+    };
+  }
+});
 const _sfc_setup$2 = _sfc_main$2.setup;
 _sfc_main$2.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("node_modules/nuxt/dist/pages/runtime/app.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("app.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["ssrRender", _sfc_ssrRender]]);
 const _sfc_main$1 = {
   __name: "nuxt-error-page",
   __ssrInlineRender: true,
@@ -3224,8 +3041,8 @@ const _sfc_main$1 = {
     const statusText = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-C_YNH9ZQ.mjs'));
-    const _Error = defineAsyncComponent(() => import('./error-500-D0L6zcxG.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-D1_y4fhM.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-C1YaMTwr.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ status: unref(status), statusText: unref(statusText), statusCode: unref(status), statusMessage: unref(statusText), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -3247,7 +3064,7 @@ const _sfc_main = {
     nuxtApp.deferHydration();
     nuxtApp.ssrContext.url;
     const SingleRenderer = false;
-    provide(PageRouteSymbol, useRoute$1());
+    provide(PageRouteSymbol, useRoute());
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup", []);
     const error = /* @__PURE__ */ useError();
     const abortRender = error.value && !nuxtApp.ssrContext.error;
@@ -3283,7 +3100,7 @@ const _sfc_main = {
           } else if (unref(SingleRenderer)) {
             ssrRenderVNode(_push, createVNode(resolveDynamicComponent(unref(SingleRenderer)), null, null), _parent);
           } else {
-            _push(ssrRenderComponent(unref(AppComponent), null, null, _parent));
+            _push(ssrRenderComponent(unref(_sfc_main$2), null, null, _parent));
           }
         },
         _: 1
@@ -3317,5 +3134,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { _export_sfc as _, useRouter as a, useRuntimeConfig as b, nuxtLinkDefaults as c, entry_default as default, encodeRoutePath as e, navigateTo as n, resolveRouteObject as r, useNuxtApp as u };
+export { useRouter as a, useRuntimeConfig as b, useTheme as c, nuxtLinkDefaults as d, entry_default as default, encodeRoutePath as e, navigateTo as n, resolveRouteObject as r, useNuxtApp as u };
 //# sourceMappingURL=server.mjs.map

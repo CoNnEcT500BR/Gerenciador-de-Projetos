@@ -16,6 +16,9 @@ type LazyComponent<T> = DefineComponent<HydrationStrategies, {}, {}, {}, {}, {},
 interface _GlobalComponents {
   AuthForm: typeof import("../../components/auth/AuthForm.vue")['default']
   LayoutBaseLayout: typeof import("../../components/layout/BaseLayout.vue")['default']
+  LayoutSidebarNav: typeof import("../../components/layout/SidebarNav.vue")['default']
+  UiBrandLogo: typeof import("../../components/ui/BrandLogo.vue")['default']
+  UiThemeToggle: typeof import("../../components/ui/ThemeToggle.vue")['default']
   NuxtWelcome: typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']
   NuxtLayout: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
   NuxtErrorBoundary: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -42,6 +45,9 @@ interface _GlobalComponents {
   NuxtIsland: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-island")['default']
   LazyAuthForm: LazyComponent<typeof import("../../components/auth/AuthForm.vue")['default']>
   LazyLayoutBaseLayout: LazyComponent<typeof import("../../components/layout/BaseLayout.vue")['default']>
+  LazyLayoutSidebarNav: LazyComponent<typeof import("../../components/layout/SidebarNav.vue")['default']>
+  LazyUiBrandLogo: LazyComponent<typeof import("../../components/ui/BrandLogo.vue")['default']>
+  LazyUiThemeToggle: LazyComponent<typeof import("../../components/ui/ThemeToggle.vue")['default']>
   LazyNuxtWelcome: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
   LazyNuxtLayout: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
   LazyNuxtErrorBoundary: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>

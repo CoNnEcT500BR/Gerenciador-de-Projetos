@@ -11,6 +11,7 @@
     "prisma:migrate": "prisma migrate dev"
   },
   "dependencies": {
+    "@prisma/adapter-mariadb": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@prisma/config": "^7.8.0",
     "bcrypt": "^5.1.0",

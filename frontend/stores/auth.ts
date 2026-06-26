@@ -1,21 +1,45 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+
+interface AuthUser {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref(null as null | { id: number; name: string; email: string; role: string });
+  const user = ref<AuthUser | null>(null);
   const token = ref('');
 
-  function setAuth(data: { user: { id: number; name: string; email: string; role: string }; token: string }) {
+  const isAuthenticated = computed(() => Boolean(token.value));
+
+  function setAuth(data: { user: AuthUser; token: string }) {
     user.value = data.user;
     token.value = data.token;
-    localStorage.setItem('authToken', data.token);
+
+    if (import.meta.client) {
+      localStorage.setItem('authToken', data.token);
+    }
   }
 
   function logout() {
     user.value = null;
     token.value = '';
-    localStorage.removeItem('authToken');
+
+    if (import.meta.client) {
+      localStorage.removeItem('authToken');
+    }
   }
 
-  return { user, token, setAuth, logout };
+  function hydrate() {
+    if (!import.meta.client) return;
+
+    const storedToken = localStorage.getItem('authToken');
+    if (storedToken) {
+      token.value = storedToken;
+    }
+  }
+
+  return { user, token, isAuthenticated, setAuth, logout, hydrate };
 });
