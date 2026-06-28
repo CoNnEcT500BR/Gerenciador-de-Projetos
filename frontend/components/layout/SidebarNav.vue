@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="mt-6 rounded-[1.25rem] border border-white/10 bg-gradient-to-br from-cyan-500/15 to-indigo-500/10 p-4">
+    <div class="mt-6 rounded-[1.25rem] border border-white/10 bg-linear-to-br from-cyan-500/15 to-indigo-500/10 p-4">
       <div class="flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-lg text-cyan-200">✦</div>
         <div>

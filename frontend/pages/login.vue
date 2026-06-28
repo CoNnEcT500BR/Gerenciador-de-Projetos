@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
     <div class="mx-auto flex max-w-6xl items-center justify-center">
-      <div class="w-full max-w-md rounded-[2rem] border border-white/10 bg-slate-900/80 p-8 shadow-2xl shadow-cyan-500/10 backdrop-blur">
+      <div class="w-full max-w-md rounded-4xl border border-white/10 bg-slate-900/80 p-8 shadow-2xl shadow-cyan-500/10 backdrop-blur">
         <div class="mb-6">
           <p class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">NovaHub</p>
           <h1 class="mt-2 text-3xl font-semibold">Entrar</h1>
@@ -35,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from '#imports';
 import { useAuthStore } from '@/stores/auth';
@@ -62,7 +63,12 @@ async function submitLogin() {
     authStore.setAuth(response.data);
     await router.push('/dashboard');
   } catch (err) {
-    error.value = err?.response?.data?.error ?? 'Erro ao entrar. Tente novamente.';
+    if (axios.isAxiosError(err)) {
+      error.value =
+        err.response?.data?.error ?? 'Erro ao entrar. Tente novamente.';
+    } else {
+      error.value = 'Erro inesperado.';
+    }
   } finally {
     loading.value = false;
   }

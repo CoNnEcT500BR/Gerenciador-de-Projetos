@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.16),_transparent_25%),linear-gradient(135deg,_#020617_0%,_#0f172a_100%)] text-slate-100">
+  <div class="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.16),transparent_25%),linear-gradient(135deg,#020617_0%,#0f172a_100%)] text-slate-100">
     <div class="mx-auto flex min-h-screen flex-col lg:flex-row">
       <SidebarNav />
 
@@ -17,7 +17,7 @@
                 🔔 3
               </button>
               <div class="flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 py-2">
-                <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-indigo-500 font-semibold text-slate-950">
+                <div class="flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br from-cyan-400 to-indigo-500 font-semibold text-slate-950">
                   {{ initials }}
                 </div>
                 <div class="text-sm">

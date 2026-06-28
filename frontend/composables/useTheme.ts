@@ -1,21 +1,26 @@
 import { computed, ref } from 'vue';
 
-export function useTheme() {
-  const theme = ref<'dark' | 'light'>('dark');
+const theme = ref<'dark' | 'light'>('dark');
 
+export function useTheme() {
   const isDark = computed(() => theme.value === 'dark');
 
   function applyTheme(value: 'dark' | 'light') {
+    if (!import.meta.client) return;
+
     const root = document.documentElement;
-    root.classList.toggle('theme-light', value === 'light');
-    root.classList.toggle('theme-dark', value === 'dark');
+
+    root.classList.remove('theme-light', 'theme-dark');
+    root.classList.add(value === 'dark' ? 'theme-dark' : 'theme-light');
   }
 
   function initTheme() {
     if (!import.meta.client) return;
 
-    const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
-    theme.value = savedTheme || 'dark';
+    const saved = localStorage.getItem('theme') as 'dark' | 'light' | null;
+
+    theme.value = saved || 'dark';
+
     applyTheme(theme.value);
   }
 

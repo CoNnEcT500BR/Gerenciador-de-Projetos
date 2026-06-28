@@ -1,7 +1,7 @@
 <template>
   <BaseLayout>
     <div class="space-y-6">
-      <section class="rounded-[2rem] border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-cyan-500/10">
+      <section class="rounded-4xl border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-cyan-500/10">
         <div class="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
           <div class="max-w-2xl">
             <p class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Bem-vindo de volta</p>
@@ -18,17 +18,17 @@
       </section>
 
       <div class="grid gap-6 xl:grid-cols-3">
-        <div class="rounded-[1.5rem] border border-white/10 bg-slate-900/70 p-6">
+        <div class="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
           <div class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Projetos</div>
           <div class="mt-4 text-3xl font-semibold text-white">12</div>
           <p class="mt-2 text-sm leading-7 text-slate-400">Organize iniciativas e acompanhe o status em tempo real.</p>
         </div>
-        <div class="rounded-[1.5rem] border border-white/10 bg-slate-900/70 p-6">
+        <div class="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
           <div class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Tarefas</div>
           <div class="mt-4 text-3xl font-semibold text-white">28</div>
           <p class="mt-2 text-sm leading-7 text-slate-400">Defina prioridades e visualize entregas com visão estratégica.</p>
         </div>
-        <div class="rounded-[1.5rem] border border-white/10 bg-slate-900/70 p-6">
+        <div class="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
           <div class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Mensagens</div>
           <div class="mt-4 text-3xl font-semibold text-white">Live</div>
           <p class="mt-2 text-sm leading-7 text-slate-400">Mantenha comunicação fluida com notificações instantâneas.</p>

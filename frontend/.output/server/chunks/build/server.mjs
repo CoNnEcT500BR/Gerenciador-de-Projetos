@@ -2006,12 +2006,12 @@ const _routes = [
   {
     name: "dashboard",
     path: "/dashboard",
-    component: () => import('./dashboard-CTOAWCsO.mjs')
+    component: () => import('./dashboard-DM1LRmC_.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-Cp4tqQdn.mjs')
+    component: () => import('./login-ZHnKUPm_.mjs')
   },
   {
     name: "profile",
@@ -2021,12 +2021,12 @@ const _routes = [
   {
     name: "register",
     path: "/register",
-    component: () => import('./register-DuL5VDrO.mjs')
+    component: () => import('./register-BQGnv52Q.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-DY4nzpho.mjs')
+    component: () => import('./index-DTHGoSUM.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
