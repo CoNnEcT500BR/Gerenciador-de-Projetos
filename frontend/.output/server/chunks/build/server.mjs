@@ -1,6 +1,6 @@
-import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { ref, computed, hasInjectionContext, getCurrentInstance, defineComponent, createElementBlock, shallowRef, provide, cloneVNode, h, inject, Suspense, Fragment, useSSRContext, createApp, shallowReactive, unref, watch, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, reactive, effectScope, defineAsyncComponent, mergeProps, getCurrentScope, toRef, isReadonly, isRef, toValue, toRaw, isShallow, isReactive, nextTick } from 'vue';
+import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { computed, hasInjectionContext, getCurrentInstance, toRef, isRef, inject, defineComponent, createElementBlock, shallowRef, provide, cloneVNode, h, ref, Suspense, Fragment, useSSRContext, createApp, shallowReactive, unref, watch, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, reactive, effectScope, defineAsyncComponent, mergeProps, getCurrentScope, isReadonly, toValue, toRaw, isShallow, isReactive, nextTick } from 'vue';
 import { p as parseURL$1, e as encodePath$1, l as decodePath, m as hasProtocol, n as isScriptProtocol, o as joinURL, w as withQuery, q as sanitizeStatusCode, r as getContext, $ as $fetch, f as createError$1, v as executeAsync, x as hash, y as defu } from '../_/nitro.mjs';
-import { b as baseURL } from '../routes/renderer.mjs';
+import { u as useHead$1, h as headSymbol, b as baseURL } from '../routes/renderer.mjs';
 import { setActivePinia, createPinia, shouldHydrate } from 'pinia';
 import { isPlainObject } from '@vue/shared';
 import { ssrRenderComponent, ssrRenderSuspense, ssrRenderVNode } from 'vue/server-renderer';
@@ -653,6 +653,22 @@ const createError = (error) => {
   });
   return nuxtError;
 };
+function injectHead(nuxtApp) {
+  const nuxt = nuxtApp || useNuxtApp();
+  return nuxt.ssrContext?.head || nuxt.runWithContext(() => {
+    if (hasInjectionContext()) {
+      const head = inject(headSymbol);
+      if (!head) {
+        throw new Error("[nuxt] [unhead] Missing Unhead instance.");
+      }
+      return head;
+    }
+  });
+}
+function useHead(input, options = {}) {
+  const head = options.head || injectHead(options.nuxt);
+  return useHead$1(input, { head, ...options });
+}
 const matcher = (m, p) => {
   return [];
 };
@@ -2006,27 +2022,27 @@ const _routes = [
   {
     name: "dashboard",
     path: "/dashboard",
-    component: () => import('./dashboard-DM1LRmC_.mjs')
+    component: () => import('./dashboard-BZsiuYRI.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-ZHnKUPm_.mjs')
+    component: () => import('./login-B--gORX4.mjs')
   },
   {
     name: "profile",
     path: "/profile",
-    component: () => import('./profile-DiezgZuz.mjs')
+    component: () => import('./profile-XEhE09vv.mjs')
   },
   {
     name: "register",
     path: "/register",
-    component: () => import('./register-BQGnv52Q.mjs')
+    component: () => import('./register-CoMyZ3vl.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-DTHGoSUM.mjs')
+    component: () => import('./index-BP-bjx-0.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -2763,6 +2779,35 @@ function mergeAbortSignals(signals, cleanupSignal, timeout) {
   }
   return controller.signal;
 }
+const useStateKeyPrefix = "$s";
+function useState(...args) {
+  const autoKey = typeof args[args.length - 1] === "string" ? args.pop() : void 0;
+  if (typeof args[0] !== "string") {
+    args.unshift(autoKey);
+  }
+  const [_key, init] = args;
+  if (!_key || typeof _key !== "string") {
+    throw new TypeError("[nuxt] [useState] key must be a string: " + _key);
+  }
+  if (init !== void 0 && typeof init !== "function") {
+    throw new Error("[nuxt] [useState] init must be a function: " + init);
+  }
+  const key = useStateKeyPrefix + _key;
+  const nuxtApp = useNuxtApp();
+  const state = toRef(nuxtApp.payload.state, key);
+  if (init) {
+    nuxtApp._state[key] ??= { _default: init };
+  }
+  if (state.value === void 0 && init) {
+    const initialValue = init();
+    if (isRef(initialValue)) {
+      nuxtApp.payload.state[key] = initialValue;
+      return initialValue;
+    }
+    state.value = initialValue;
+  }
+  return state;
+}
 function useRequestEvent(nuxtApp) {
   nuxtApp ||= useNuxtApp();
   return nuxtApp.ssrContext?.event;
@@ -3000,13 +3045,19 @@ function normalizeSlot(slot, data) {
   return slotContent.length === 1 ? h(slotContent[0]) : h(Fragment, void 0, slotContent);
 }
 function useTheme() {
-  const theme = ref("dark");
+  const theme = useState("theme", () => "dark");
   const isDark = computed(() => theme.value === "dark");
+  useHead({
+    htmlAttrs: {
+      class: computed(() => isDark.value ? "theme-dark" : "theme-light")
+    }
+  });
   function initTheme() {
     return;
   }
   function toggleTheme() {
     theme.value = theme.value === "dark" ? "light" : "dark";
+    return;
   }
   return { theme, isDark, initTheme, toggleTheme };
 }
@@ -3041,8 +3092,8 @@ const _sfc_main$1 = {
     const statusText = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-D1_y4fhM.mjs'));
-    const _Error = defineAsyncComponent(() => import('./error-500-C1YaMTwr.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-CCE38YqL.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-EC8ngMAi.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ status: unref(status), statusText: unref(statusText), statusCode: unref(status), statusMessage: unref(statusText), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -3134,5 +3185,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { useRouter as a, useRuntimeConfig as b, useTheme as c, nuxtLinkDefaults as d, entry_default as default, encodeRoutePath as e, navigateTo as n, resolveRouteObject as r, useNuxtApp as u };
+export { useRouter as a, useRuntimeConfig as b, useNuxtApp as c, nuxtLinkDefaults as d, entry_default as default, encodeRoutePath as e, useTheme as f, navigateTo as n, resolveRouteObject as r, useHead as u };
 //# sourceMappingURL=server.mjs.map

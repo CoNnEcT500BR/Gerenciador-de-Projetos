@@ -8,39 +8,92 @@ html {
 }
 
 /* =========================
+   BRAND & STATE TOKENS (fixed, theme-independent)
+========================= */
+
+:root {
+  --brand-from: #2dd4bf;
+  --brand-via: #14b8a6;
+  --brand-to: #0f172a;
+  --brand-icon: #020617;
+
+  --shadow-tint: rgba(20, 184, 166, 0.18);
+  --shadow-tint-soft: rgba(20, 184, 166, 0.1);
+}
+
+/* =========================
    THEME TOKENS
 ========================= */
 
 html.theme-dark {
-  --bg: #0b1220;         /* menos preto pesado */
+  --bg: #0b1220;
+  --bg-button: #14b8a6;
+  --bg-button-hover: #2dd4bf;
   --surface: #0f172a;
   --surface-2: #111c33;
+  --surface-soft: rgba(255, 255, 255, 0.05);
+  --surface-strong: rgba(15, 23, 42, 0.82);
 
   --text: #e6edf5;
   --text-muted: #9aa4b2;
+  --text-button: #f0fdfa;
+  --text-info: #99f6e4;
+  --text-button-hover: #0f172a;
 
-  --border: rgba(255,255,255,0.08);
+  --border: rgba(255, 255, 255, 0.22);
+  --border-hover: rgba(255, 255, 255, 0.36);
+  --border-shadow: #14b8a6;
 
-  --primary: #22d3ee;
+  --primary: #2dd4bf;
 
-  --gradient-1: rgba(34, 211, 238, 0.12);
-  --gradient-2: rgba(99, 102, 241, 0.16);
+  --accent-soft-bg: rgba(45, 212, 191, 0.12);
+  --accent-soft-border: rgba(45, 212, 191, 0.32);
+  --accent-gradient-a: rgba(45, 212, 191, 0.2);
+  --accent-gradient-b: rgba(15, 118, 110, 0.2);
+
+  --danger-bg: rgba(244, 63, 94, 0.12);
+  --danger-border: rgba(244, 63, 94, 0.35);
+  --danger-text: #fda4af;
+
+  --success-text: #34d399;
+
+  --gradient-1: rgba(45, 212, 191, 0.12);
+  --gradient-2: rgba(15, 118, 110, 0.16);
 }
 
 html.theme-light {
-  --bg: #F5F5F7;         /* menos branco puro */
+  --bg: #f4f6f5;
+  --bg-button: #0d9488;
+  --bg-button-hover: #0f766e;
   --surface: #ffffff;
-  --surface-2: #f1f5f9;  /* camadas */
+  --surface-2: #e7ecf1;
+  --surface-soft: rgba(15, 23, 42, 0.04);
+  --surface-strong: rgba(255, 255, 255, 0.92);
 
-  --text: #0f172a;
-  --text-muted: #5b6475; /* mais suave e elegante */
+  --text: #1c2b3a;
+  --text-muted: #5b6475;
+  --text-button: #ffffff;
+  --text-info: #0f766e;
+  --text-button-hover: #ffffff;
 
-  --border: rgba(15, 23, 42, 0.08);
+  --border: rgba(21, 50, 67, 0.32);
+  --border-hover: rgba(21, 50, 67, 0.5);
 
-  --primary: #0891b2;
+  --primary: #0f766e;
 
-  --gradient-1: rgba(14, 165, 233, 0.10);
-  --gradient-2: rgba(79, 70, 229, 0.08);
+  --accent-soft-bg: rgba(13, 148, 136, 0.08);
+  --accent-soft-border: rgba(13, 148, 136, 0.28);
+  --accent-gradient-a: rgba(13, 148, 136, 0.14);
+  --accent-gradient-b: rgba(15, 23, 42, 0.08);
+
+  --danger-bg: rgba(225, 29, 72, 0.08);
+  --danger-border: rgba(225, 29, 72, 0.35);
+  --danger-text: #be123c;
+
+  --success-text: #047857;
+
+  --gradient-1: rgba(13, 148, 136, 0.08);
+  --gradient-2: rgba(15, 23, 42, 0.05);
 }
 
 /* =========================
@@ -50,6 +103,7 @@ html.theme-light {
 body {
   margin: 0;
   min-height: 100vh;
+  transition: background-color 220ms ease, color 220ms ease, background-image 220ms ease;
 
   background-color: var(--bg);
   color: var(--text);

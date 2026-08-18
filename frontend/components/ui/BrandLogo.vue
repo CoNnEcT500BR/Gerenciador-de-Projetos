@@ -1,11 +1,13 @@
 <template>
   <div class="flex items-center gap-3">
-    <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-cyan-400 via-sky-500 to-indigo-500 shadow-lg shadow-cyan-500/20">
-      <span class="text-lg font-black tracking-[0.2em] text-slate-950">N</span>
-    </div>
+    <img src="~/assets/images/logo-transparent.png" alt="NovaHub" class="h-10 w-10 object-contain drop-shadow-[0_6px_14px_var(--shadow-tint)]" />
     <div>
-      <p class="text-sm font-semibold tracking-[0.28em] text-cyan-300">NOVAHUB</p>
-      <p class="text-xs text-slate-400">collaboration studio</p>
+      <p class="flex items-center gap-1.5 text-sm font-bold tracking-[0.28em] text-[color:var(--text)]">
+        NOVAHUB
+        <span class="h-1.5 w-1.5 rounded-full bg-[color:var(--brand-from)]"></span>
+      </p>
+      <p class="text-xs text-[color:var(--text-muted)]">collaboration studio</p>
     </div>
   </div>
 </template>
+
