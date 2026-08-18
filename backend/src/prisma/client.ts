@@ -23,7 +23,7 @@ const dbConfig = databaseUrl
     })()
   : defaultDbConfig;
 
-const adapter = new PrismaMariaDb(dbConfig);
+const adapter = new PrismaMariaDb({ ...dbConfig, allowPublicKeyRetrieval: true });
 const prisma = new PrismaClient({ adapter });
 
 export default prisma;
