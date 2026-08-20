@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
+    "host": "nuxt dev --host",
     "build": "nuxt build",
     "preview": "nuxt preview"
   },

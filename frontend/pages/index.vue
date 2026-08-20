@@ -1,10 +1,10 @@
 <template>
   <div class="min-h-screen bg-[color:var(--bg)] text-[color:var(--text)]">
-    <div class="mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-6 lg:px-8">
+    <div class="site-shell mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-6 lg:px-8">
 
       <!-- HEADER -->
       <header
-        class="mb-14 flex flex-col gap-4 rounded-full border border-[color:var(--border)] bg-[color:var(--surface)]/60 px-5 py-3 backdrop-blur lg:flex-row lg:items-center lg:justify-between"
+        class="page-header mb-14 flex flex-col gap-4 rounded-full border border-[color:var(--border)] bg-[color:var(--surface)]/60 px-5 py-3 backdrop-blur lg:flex-row lg:items-center lg:justify-between"
       >
         <div class="flex items-center justify-between gap-4">
           <BrandLogo />
@@ -16,19 +16,19 @@
           <a href="#faq" class="transition hover:text-[color:var(--text)]">FAQ</a>
         </nav>
 
-        <div class="flex items-center gap-3">
+        <div class="header-actions flex items-center gap-3">
           <ThemeToggle />
 
           <NuxtLink
             to="/login"
-            class="rounded-full border border-[color:var(--border)] bg-[color:var(--surface)]/40 px-4 py-2 text-sm font-medium text-[color:var(--text)] transition hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)]"
+            class="header-link rounded-full border border-[color:var(--border)] bg-[color:var(--surface)]/40 px-4 py-2 text-sm font-medium text-[color:var(--text)] transition hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)]"
           >
             Entrar
           </NuxtLink>
 
           <NuxtLink
             to="/register"
-            class="rounded-full bg-[color:var(--bg-button)] border border-[color:var(--border)] px-4 py-2 text-sm font-semibold text-[color:var(--text-button)] transition hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)]"
+            class="header-cta rounded-full bg-[color:var(--bg-button)] border border-[color:var(--border)] px-4 py-2 text-sm font-semibold text-[color:var(--text-button)] transition hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)]"
           >
             Criar conta
           </NuxtLink>
@@ -45,25 +45,25 @@
             Gestão inteligente para equipes modernas
           </div>
 
-          <h1 class="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
+          <h1 class="page-title text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
             O espaço de trabalho da <span class="text-[color:var(--primary)]">sua equipe.</span>
           </h1>
 
-          <p class="max-w-md text-lg leading-8 text-[color:var(--text-muted)]">
+          <p class="page-copy max-w-md text-lg leading-8 text-[color:var(--text-muted)]">
             Projetos, tarefas e comunicação em um único lugar para você e seu time entregarem mais, com menos esforço.
           </p>
 
           <div class="flex flex-wrap gap-4">
             <NuxtLink
               to="/register"
-              class="rounded-2xl border border-[color:var(--border)] bg-[color:var(--bg-button)] px-6 py-3 font-semibold text-[color:var(--text-button)] transition hover:text-[color:var(--text-button-hover)] hover:border-[color:var(--border-hover)] hover:bg-[color:var(--bg-button-hover)]"
+              class="hero-cta hero-cta-primary rounded-2xl border border-[color:var(--border)] bg-[color:var(--bg-button)] px-6 py-3 font-semibold text-[color:var(--text-button)] transition hover:text-[color:var(--text-button-hover)] hover:border-[color:var(--border-hover)] hover:bg-[color:var(--bg-button-hover)]"
             >
               Começar gratuitamente →
             </NuxtLink>
 
             <a
               href="#recursos"
-              class="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]/40 px-6 py-3 font-semibold text-[color:var(--text)] transition hover:text-[color:var(--text-button-hover)] hover:border-[color:var(--border-hover)] hover:bg-[color:var(--bg-button-hover)]"
+              class="hero-cta hero-cta-secondary rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]/40 px-6 py-3 font-semibold text-[color:var(--text)] transition hover:text-[color:var(--text-button-hover)] hover:border-[color:var(--border-hover)] hover:bg-[color:var(--bg-button-hover)]"
             >
               Ver demonstração
             </a>
@@ -175,7 +175,7 @@
           <div
             v-for="company in companies"
             :key="company.name"
-            class="flex items-center justify-center gap-2 rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)] px-4 py-4 text-lg font-bold text-[color:var(--text)] shadow-[0_10px_25px_-15px_var(--shadow-tint-soft)] transition hover:border-[color:var(--border-hover)]"
+            class="company-badge flex items-center justify-center gap-2 rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)] px-4 py-4 text-lg font-bold text-[color:var(--text)] shadow-[0_10px_25px_-15px_var(--shadow-tint-soft)] transition hover:border-[color:var(--border-hover)]"
           >
             <span class="text-xl">{{ company.icon }}</span>
             {{ company.name }}
@@ -196,8 +196,8 @@
         </div>
 
         <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <div v-for="feature in features" :key="feature.title">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-[color:var(--accent-soft-bg)] text-xl">
+          <div v-for="feature in features" :key="feature.title" class="feature-card">
+            <div class="feature-icon flex h-11 w-11 items-center justify-center rounded-xl bg-[color:var(--accent-soft-bg)] text-xl">
               {{ feature.icon }}
             </div>
             <h3 class="mt-4 text-lg font-semibold text-[color:var(--text)]">{{ feature.title }}</h3>
@@ -222,7 +222,7 @@
           <div
             v-for="testimonial in testimonials"
             :key="testimonial.author"
-            class="flex flex-col justify-between rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface)]/60 p-6"
+            class="testimonial-card flex flex-col justify-between rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface)]/60 p-6"
           >
             <p class="text-sm leading-7 text-[color:var(--text-muted)]">&ldquo;{{ testimonial.quote }}&rdquo;</p>
             <div class="mt-6 flex items-center gap-3">
@@ -247,13 +247,13 @@
             <div class="mt-6 flex flex-wrap justify-center gap-3 lg:justify-start">
               <NuxtLink
                 to="/register"
-                class="rounded-2xl border border-[color:var(--border)] bg-[color:var(--bg-button)] px-6 py-3 font-semibold text-[color:var(--text-button)] transition hover:text-[color:var(--text-button-hover)] hover:border-[color:var(--border-hover)] hover:bg-[color:var(--bg-button-hover)]"
+                class="hero-cta hero-cta-primary rounded-2xl border border-[color:var(--border)] bg-[color:var(--bg-button)] px-6 py-3 font-semibold text-[color:var(--text-button)] transition hover:text-[color:var(--text-button-hover)] hover:border-[color:var(--border-hover)] hover:bg-[color:var(--bg-button-hover)]"
               >
                 Começar gratuitamente
               </NuxtLink>
               <a
                 href="#depoimentos"
-                class="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]/40 px-6 py-3 font-semibold text-[color:var(--text)] transition hover:border-[color:var(--border-hover)]"
+                class="hero-cta hero-cta-secondary rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]/40 px-6 py-3 font-semibold text-[color:var(--text)] transition hover:border-[color:var(--border-hover)]"
               >
                 Falar com vendas
               </a>
@@ -289,17 +289,31 @@
         </div>
 
         <div class="mx-auto mt-12 max-w-3xl space-y-4">
-          <details
-            v-for="item in faq"
+          <div
+            v-for="(item, index) in faq"
             :key="item.question"
-            class="group rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]/60 p-5 open:border-[color:var(--border-hover)]"
+            class="faq-item group rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]/60 p-5"
+            :class="{
+              'faq-item-open': openFaqIndex === index,
+              'faq-item-animated': faqAnimatedIndex === index,
+            }"
           >
-            <summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-[color:var(--text)]">
-              {{ item.question }}
-              <span class="text-[color:var(--text-muted)] transition group-open:rotate-45">+</span>
-            </summary>
-            <p class="mt-3 text-sm leading-7 text-[color:var(--text-muted)]">{{ item.answer }}</p>
-          </details>
+            <button
+              type="button"
+              class="faq-trigger flex w-full items-center justify-between gap-4 text-left font-semibold text-[color:var(--text)]"
+              :aria-expanded="openFaqIndex === index"
+              @click="toggleFaq(index)"
+            >
+              <span>{{ item.question }}</span>
+              <span class="faq-plus" :class="{ 'faq-plus-open': openFaqIndex === index }">+</span>
+            </button>
+
+            <div class="faq-content" :class="{ 'faq-content-open': openFaqIndex === index }">
+              <div class="faq-content-inner">
+                <p class="text-sm leading-7 text-[color:var(--text-muted)]">{{ item.answer }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -332,6 +346,7 @@
 
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import BrandLogo from '@/components/ui/BrandLogo.vue';
 import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 
@@ -460,5 +475,433 @@ const footerColumns = [
     links: ['Central de ajuda', 'Perguntas frequentes', 'Status da plataforma'],
   },
 ];
+
+const openFaqIndex = ref<number | null>(null);
+const faqAnimatedIndex = ref<number | null>(null);
+
+function toggleFaq(index: number) {
+  const isOpening = openFaqIndex.value !== index;
+  openFaqIndex.value = isOpening ? index : null;
+  faqAnimatedIndex.value = index;
+
+  window.setTimeout(() => {
+    faqAnimatedIndex.value = null;
+  }, 500);
+}
 </script>
+<style scoped>
+.site-shell {
+  width: min(100%, 90rem);
+}
+
+.page-header {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.page-header:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 25px rgba(15, 23, 42, 0.04);
+}
+
+.page-title {
+  max-width: 12ch;
+}
+
+.page-copy {
+  max-width: 36rem;
+}
+
+@keyframes riseIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(45, 212, 191, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(45, 212, 191, 0.2);
+  }
+}
+
+@keyframes floatSoft {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.header-link,
+.header-cta,
+.hero-cta,
+.company-badge,
+.feature-card,
+.testimonial-card {
+  animation: riseIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.page-header {
+  backdrop-filter: blur(18px);
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+.hero-cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+}
+
+.hero-cta::before {
+  content: '';
+  position: absolute;
+  inset: -30% auto -30% -20%;
+  width: 40%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0));
+  transform: translateX(-180%) skewX(-18deg);
+  transition: transform 0.7s ease;
+  z-index: -1;
+}
+
+.hero-cta:hover::before {
+  transform: translateX(380%) skewX(-18deg);
+}
+
+.hero-cta-primary {
+  background-image: linear-gradient(135deg, rgba(20,184,166,0.35), rgba(45,212,191,0.12));
+}
+
+.hero-cta-primary:hover {
+  box-shadow: 0 16px 32px rgba(20, 184, 166, 0.25);
+}
+
+.header-link,
+.header-cta {
+  position: relative;
+  overflow: hidden;
+}
+
+.header-link::after,
+.header-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.header-link:hover::after,
+.header-cta:hover::after {
+  opacity: 1;
+}
+
+.hero-cta-primary {
+  box-shadow: 0 12px 28px rgba(20, 184, 166, 0.22);
+}
+
+.hero-cta-secondary {
+  backdrop-filter: blur(10px);
+}
+
+.company-badge,
+.feature-card,
+.testimonial-card {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.company-badge:hover,
+.feature-card:hover,
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);
+}
+
+.feature-card {
+  padding: 1.25rem;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 1.5rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+}
+
+.testimonial-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+}
+
+.company-badge {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+}
+
+.feature-card:nth-child(2) { animation-delay: 0.08s; }
+.feature-card:nth-child(3) { animation-delay: 0.16s; }
+.feature-card:nth-child(4) { animation-delay: 0.24s; }
+
+.feature-icon {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: inset 0 0 0 1px rgba(45, 212, 191, 0.12);
+}
+
+.feature-card:hover .feature-icon {
+  transform: rotate(-4deg) scale(1.05);
+  box-shadow: 0 12px 24px rgba(45, 212, 191, 0.12);
+}
+
+.company-badge:nth-child(2) { animation-delay: 0.06s; }
+.company-badge:nth-child(3) { animation-delay: 0.12s; }
+.company-badge:nth-child(4) { animation-delay: 0.18s; }
+.company-badge:nth-child(5) { animation-delay: 0.24s; }
+
+.testimonial-card:nth-child(2) { animation-delay: 0.08s; }
+.testimonial-card:nth-child(3) { animation-delay: 0.16s; }
+
+.faq-item {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  transition:
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    transform 0.28s ease,
+    background-color 0.28s ease;
+}
+
+.faq-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(127, 140, 255, 0.08), rgba(255, 255, 255, 0.08));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.faq-item:hover {
+  border-color: rgba(123, 136, 255, 0.44);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(45, 212, 191, 0.08);
+  transform: translateY(-2px);
+}
+
+.faq-item-open {
+  border-color: rgba(123, 136, 255, 0.48);
+  box-shadow: 0 20px 45px rgba(94, 104, 255, 0.12), 0 0 28px rgba(45, 212, 191, 0.08);
+}
+
+.faq-item-open::before,
+.faq-item-animated::before {
+  opacity: 1;
+}
+
+.faq-item-animated {
+  animation: glowPulse 1.2s ease;
+}
+
+.faq-trigger {
+  list-style: none;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.faq-trigger:hover {
+  color: var(--text);
+}
+
+.faq-trigger span:first-child {
+  transition: transform 0.25s ease;
+}
+
+.faq-item-open .faq-trigger span:first-child {
+  transform: translateX(2px);
+}
+
+.faq-plus {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: rgba(148, 163, 184, 0.08);
+  color: var(--text-muted);
+  font-size: 1.4rem;
+  line-height: 1;
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.28s ease,
+    color 0.28s ease,
+    box-shadow 0.28s ease;
+  flex-shrink: 0;
+}
+
+.faq-item:hover .faq-plus,
+.faq-item-open .faq-plus {
+  background: rgba(124, 92, 255, 0.1);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px rgba(124, 92, 255, 0.18);
+}
+
+.faq-plus-open {
+  transform: rotate(45deg) scale(1.04);
+}
+
+.faq-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-8px);
+  overflow: hidden;
+  transition:
+    grid-template-rows 0.42s cubic-bezier(0.2, 0.8, 0.2, 1),
+    max-height 0.42s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.26s ease,
+    transform 0.28s ease,
+    margin-top 0.28s ease;
+}
+
+.faq-content-open {
+  grid-template-rows: 1fr;
+  max-height: 18rem;
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 0.9rem;
+}
+
+.faq-content-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.faq-content-inner p {
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  color: var(--text-muted);
+}
+
+@media (min-width: 1280px) {
+  .page-header {
+    padding-inline: 1.4rem;
+  }
+
+  .feature-card,
+  .company-badge,
+  .testimonial-card {
+    min-height: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-shell {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .page-header {
+    margin-bottom: 1.5rem;
+    border-radius: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .header-actions > :first-child {
+    flex: 1 1 auto;
+  }
+
+  .hero-cta,
+  .header-link,
+  .header-cta {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .page-title {
+    max-width: none;
+    font-size: clamp(2.5rem, 9vw, 3.4rem);
+  }
+
+  .page-copy {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .faq-item {
+    padding: 1.1rem 1rem;
+  }
+
+  .faq-item summary {
+    gap: 0.75rem;
+    font-size: 0.96rem;
+  }
+
+  .faq-plus {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-shell {
+    padding-top: 0.9rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .theme-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .theme-toggle-label {
+    font-size: 0.74rem;
+  }
+
+  .header-actions {
+    gap: 0.6rem;
+  }
+
+  .hero-cta,
+  .header-link,
+  .header-cta {
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+  }
+}
+</style>
 

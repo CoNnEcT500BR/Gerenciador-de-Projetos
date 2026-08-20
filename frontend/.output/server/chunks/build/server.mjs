@@ -2022,27 +2022,27 @@ const _routes = [
   {
     name: "dashboard",
     path: "/dashboard",
-    component: () => import('./dashboard-BZsiuYRI.mjs')
+    component: () => import('./dashboard-Td5ZmE7G.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-B--gORX4.mjs')
+    component: () => import('./login-DNpAC29N.mjs')
   },
   {
     name: "profile",
     path: "/profile",
-    component: () => import('./profile-XEhE09vv.mjs')
+    component: () => import('./profile-BdKee9lY.mjs')
   },
   {
     name: "register",
     path: "/register",
-    component: () => import('./register-CoMyZ3vl.mjs')
+    component: () => import('./register-BVyuU8SL.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-BP-bjx-0.mjs')
+    component: () => import('./index-C5w0lNE_.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
