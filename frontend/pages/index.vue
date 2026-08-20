@@ -297,12 +297,13 @@
               'faq-item-open': openFaqIndex === index,
               'faq-item-animated': faqAnimatedIndex === index,
             }"
+            @click="toggleFaq(index)"
           >
             <button
               type="button"
               class="faq-trigger flex w-full items-center justify-between gap-4 text-left font-semibold text-[color:var(--text)]"
               :aria-expanded="openFaqIndex === index"
-              @click="toggleFaq(index)"
+              @click.stop="toggleFaq(index)"
             >
               <span>{{ item.question }}</span>
               <span class="faq-plus" :class="{ 'faq-plus-open': openFaqIndex === index }">+</span>
@@ -670,6 +671,7 @@ function toggleFaq(index: number) {
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  cursor: pointer;
   transition:
     border-color 0.28s ease,
     box-shadow 0.28s ease,
