@@ -117,6 +117,35 @@ body {
   box-sizing: border-box;
 }
 
+input,
+textarea,
+select {
+  color: var(--text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--surface-2) inset !important;
+  box-shadow: 0 0 0 1000px var(--surface-2) inset !important;
+  background-color: var(--surface-2) !important;
+  caret-color: var(--text);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 ::selection {
   background: rgba(34, 211, 238, 0.4);
   color: white;
