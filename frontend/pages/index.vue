@@ -42,15 +42,15 @@
         <section class="space-y-6">
 
           <div class="inline-flex rounded-full border border-[color:var(--accent-soft-border)] bg-[color:var(--accent-soft-bg)] px-3 py-1 text-sm font-medium text-[color:var(--text-info)]">
-            Gestão inteligente para equipes modernas
+            Um hub de execução para equipes que entregam
           </div>
 
           <h1 class="page-title text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            O espaço de trabalho da <span class="text-[color:var(--primary)]">sua equipe.</span>
+            Menos troca de abas. <span class="text-[color:var(--primary)]">Mais entregas.</span>
           </h1>
 
           <p class="page-copy max-w-md text-lg leading-8 text-[color:var(--text-muted)]">
-            Projetos, tarefas e comunicação em um único lugar para você e seu time entregarem mais, com menos esforço.
+            NovaHub conecta projetos, prioridades e conversas no mesmo contexto para transformar planos em entregas consistentes.
           </p>
 
           <div class="flex flex-wrap gap-4">
@@ -72,11 +72,11 @@
           <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[color:var(--text-muted)]">
             <span class="flex items-center gap-2">
               <span class="text-[color:var(--success-text)]">✓</span>
-              Sem cartão de crédito
+              Contexto centralizado
             </span>
             <span class="flex items-center gap-2">
               <span class="text-[color:var(--success-text)]">✓</span>
-              Cancelamento fácil
+              Decisões mais rápidas
             </span>
           </div>
         </section>
@@ -104,7 +104,10 @@
               <!-- main mock content -->
               <div class="min-w-0 flex-1 p-4">
                 <div class="flex items-center justify-between gap-2">
-                  <p class="truncate text-sm font-semibold text-[color:var(--text)]">Boas-vindas, Diego! 👋</p>
+                  <div>
+                    <p class="truncate text-sm font-semibold text-[color:var(--text)]">Workspace principal</p>
+                    <p class="mt-0.5 text-[10px] text-[color:var(--text-muted)]">Visão geral da operação</p>
+                  </div>
                   <div class="flex shrink-0 items-center gap-2">
                     <span class="hidden rounded-full border border-[color:var(--border)] px-2 py-1 text-[10px] text-[color:var(--text-muted)] sm:inline">🔍 Buscar...</span>
                     <span class="text-xs">🔔</span>
@@ -113,7 +116,7 @@
                 </div>
 
                 <div class="mt-4 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-4">
-                  <div v-for="stat in statCards" :key="stat.label" class="rounded-lg border border-[color:var(--border)] bg-[color:var(--surface)]/60 p-2">
+                  <div v-for="stat in statCards" :key="stat.label" class="rounded-lg border border-[color:var(--border)] bg-[color:var(--surface)]/60 p-2 first:border-[color:var(--accent-soft-border)] last:border-[color:var(--accent-soft-border)]">
                     <p class="text-[color:var(--text-muted)]">{{ stat.label }}</p>
                     <p class="text-sm font-semibold text-[color:var(--text)]">{{ stat.value }}</p>
                     <p class="text-[10px] text-[color:var(--success-text)]">{{ stat.delta }}</p>
@@ -122,7 +125,7 @@
 
                 <div class="mt-4 grid gap-3 text-[11px] sm:grid-cols-2">
                   <div class="rounded-lg border border-[color:var(--border)] p-3">
-                    <p class="mb-2 font-semibold text-[color:var(--text)]">Projetos em andamento</p>
+                    <p class="mb-2 font-semibold text-[color:var(--text)]">Projetos em destaque</p>
                     <div v-for="project in projects" :key="project.name" class="mb-2 last:mb-0">
                       <div class="flex justify-between text-[color:var(--text)]">
                         <span>{{ project.name }}</span>
@@ -138,7 +141,10 @@
                   </div>
 
                   <div class="rounded-lg border border-[color:var(--border)] p-3">
-                    <p class="mb-2 font-semibold text-[color:var(--text)]">Atividades recentes</p>
+                    <div class="mb-2 flex items-center justify-between">
+                      <p class="font-semibold text-[color:var(--text)]">Chat em tempo real</p>
+                      <span class="text-[9px] text-[color:var(--primary)]">EM BREVE</span>
+                    </div>
                     <div v-for="activity in activities" :key="activity.text" class="mb-2 flex items-start gap-2 last:mb-0">
                       <span class="mt-0.5 h-5 w-5 shrink-0 rounded-full bg-linear-to-br from-[color:var(--brand-from)] to-[color:var(--brand-to)]"></span>
                       <div>
@@ -191,7 +197,7 @@
           </div>
           <h2 class="mt-4 text-3xl font-semibold sm:text-4xl">Tudo que sua equipe precisa, em um só lugar</h2>
           <p class="mt-3 text-lg leading-8 text-[color:var(--text-muted)]">
-            Ferramentas pensadas para reduzir ruído de comunicação e acelerar decisões.
+            Recursos que eliminam a fragmentação entre planejamento, execução e as conversas que movem cada entrega.
           </p>
         </div>
 
@@ -214,7 +220,7 @@
           </div>
           <h2 class="mt-4 text-3xl font-semibold sm:text-4xl">Times que já organizaram o caos com o NovaHub</h2>
           <p class="mt-3 text-lg leading-8 text-[color:var(--text-muted)]">
-            Um retrato de como equipes reais usam a plataforma no dia a dia.
+            O NovaHub une visibilidade da operação e colaboração contextualizada, para que o trabalho avance sem ruído.
           </p>
         </div>
 
@@ -353,24 +359,24 @@ import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 
 const features = [
   {
-    icon: '📁',
-    title: 'Gestão de projetos',
-    description: 'Planeje, organize e acompanhe projetos de qualquer tamanho com facilidade.',
+    icon: '◈',
+    title: 'Visão única da operação',
+    description: 'Enxergue projetos, progresso e prioridades sem montar relatórios manuais.',
   },
   {
-    icon: '✅',
-    title: 'Tarefas e prazos',
-    description: 'Distribua tarefas, defina prioridades e nunca mais perca um prazo.',
+    icon: '↗',
+    title: 'Prioridades que aparecem',
+    description: 'As próximas entregas ficam visíveis para que a equipe saiba onde concentrar energia.',
   },
   {
-    icon: '💬',
-    title: 'Comunicação em tempo real',
-    description: 'Converse, compartilhe e tome decisões rápidas sem sair da plataforma.',
+    icon: '◎',
+    title: 'Conversas no contexto',
+    description: 'Chat integrado ao fluxo de trabalho para preservar decisões, alinhamento e velocidade.',
   },
   {
-    icon: '📊',
-    title: 'Relatórios inteligentes',
-    description: 'Tenha insights valiosos para entregar resultados cada vez melhores.',
+    icon: '⌁',
+    title: 'Arquivos junto ao projeto',
+    description: 'Centralize materiais importantes no lugar onde o trabalho acontece.',
   },
 ];
 
@@ -906,4 +912,3 @@ function toggleFaq(index: number) {
   }
 }
 </style>
-

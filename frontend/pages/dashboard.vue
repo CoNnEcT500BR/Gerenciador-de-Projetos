@@ -1,86 +1,119 @@
 <template>
   <BaseLayout>
-    <div class="space-y-6">
-      <section class="rounded-4xl border border-[color:var(--border)] bg-[color:var(--surface)]/80 p-6 shadow-[0_25px_50px_-12px_var(--shadow-tint-soft)] transition-colors duration-200">
-        <div class="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
-          <div class="max-w-2xl">
-            <p class="text-sm font-semibold uppercase tracking-[0.25em] text-[color:var(--primary)]">Bem-vindo de volta</p>
-            <h1 class="mt-3 text-3xl font-semibold text-[color:var(--text)]">
-              Olá, {{ authStore.user?.name?.split(' ')[0] || 'usuário' }}. Seu painel está mais claro, rápido e premium.
-            </h1>
-            <p class="mt-3 text-sm leading-7 text-[color:var(--text-muted)]">
-              Acompanhe projetos, tarefas e comunicação em um ambiente elegante e pensado para decisões ágeis.
-            </p>
-          </div>
-          <div class="rounded-2xl border border-[color:var(--accent-soft-border)] bg-[color:var(--accent-soft-bg)] px-4 py-3 text-sm text-[color:var(--text-info)]">
-            <div class="font-semibold">Progresso geral</div>
-            <div class="mt-1 text-[color:var(--text)]">{{ completionRate }}% de tarefas concluídas</div>
-          </div>
+    <div class="space-y-7">
+      <section class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--primary)]">Visão geral</p>
+          <h1 class="mt-2 text-2xl font-semibold tracking-tight text-[color:var(--text)]">Olá, {{ authStore.user?.name?.split(' ')[0] || 'usuário' }}.</h1>
+          <p class="mt-1 text-sm text-[color:var(--text-muted)]">Acompanhe o ritmo da sua equipe e mantenha as entregas em movimento.</p>
         </div>
+        <NuxtLink to="/projects" class="inline-flex items-center justify-center gap-2 rounded-xl bg-[color:var(--bg-button)] px-4 py-2.5 text-sm font-semibold text-[color:var(--text-button)] transition hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)]">
+          <span>+</span> Novo projeto
+        </NuxtLink>
       </section>
 
-      <div class="grid gap-6 xl:grid-cols-3">
-        <NuxtLink to="/projects" class="rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface)]/70 p-6 transition-colors duration-200 hover:border-[color:var(--border-hover)]">
-          <div class="text-sm font-semibold uppercase tracking-[0.25em] text-[color:var(--primary)]">Projetos</div>
-          <div class="mt-4 text-3xl font-semibold text-[color:var(--text)]">{{ loading ? '—' : projects.length }}</div>
-          <p class="mt-2 text-sm leading-7 text-[color:var(--text-muted)]">Organize iniciativas e acompanhe o status em tempo real.</p>
+      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <NuxtLink to="/projects" class="dashboard-stat">
+          <span class="dashboard-stat-label">Projetos ativos</span>
+          <strong>{{ loading ? '—' : projects.length }}</strong>
+          <span class="dashboard-stat-note">Iniciativas em acompanhamento</span>
         </NuxtLink>
-        <div class="rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface)]/70 p-6 transition-colors duration-200">
-          <div class="text-sm font-semibold uppercase tracking-[0.25em] text-[color:var(--primary)]">Tarefas</div>
-          <div class="mt-4 text-3xl font-semibold text-[color:var(--text)]">{{ loading ? '—' : totalTasks }}</div>
-          <p class="mt-2 text-sm leading-7 text-[color:var(--text-muted)]">Defina prioridades e visualize entregas com visão estratégica.</p>
+        <div class="dashboard-stat">
+          <span class="dashboard-stat-label">Tarefas pendentes</span>
+          <strong>{{ loading ? '—' : pendingTasks.length }}</strong>
+          <span class="dashboard-stat-note">{{ totalTasks }} tarefas no total</span>
         </div>
-        <div class="rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface)]/70 p-6 transition-colors duration-200">
-          <div class="text-sm font-semibold uppercase tracking-[0.25em] text-[color:var(--primary)]">Mensagens</div>
-          <div class="mt-4 text-3xl font-semibold text-[color:var(--text)]">Em breve</div>
-          <p class="mt-2 text-sm leading-7 text-[color:var(--text-muted)]">Chat em tempo real chega na próxima fase.</p>
+        <div class="dashboard-stat">
+          <span class="dashboard-stat-label">Progresso geral</span>
+          <strong>{{ loading ? '—' : `${completionRate}%` }}</strong>
+          <span class="dashboard-stat-note">Tarefas concluídas</span>
+        </div>
+        <div class="dashboard-stat dashboard-stat-accent">
+          <span class="dashboard-stat-label">Colaboração</span>
+          <strong>Em breve</strong>
+          <span class="dashboard-stat-note">Chat e arquivos no mesmo fluxo</span>
         </div>
       </div>
 
-      <div class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-        <div class="rounded-[1.75rem] border border-[color:var(--border)] bg-[color:var(--surface)]/70 p-6 transition-colors duration-200">
-          <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-[color:var(--text)]">Atividades recentes</h2>
-            <span class="rounded-full border border-[color:var(--border)] bg-[color:var(--surface-soft)] px-3 py-1 text-sm text-[color:var(--text-muted)]">Projetos e tarefas</span>
-          </div>
-          <div class="mt-6 space-y-4">
-            <p v-if="!loading && recentActivities.length === 0" class="text-sm text-[color:var(--text-muted)]">
-              Nenhuma atividade ainda. Crie seu primeiro projeto para começar.
-            </p>
-            <div
-              v-for="activity in recentActivities"
-              :key="`${activity.type}-${activity.id}`"
-              class="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)]/70 p-4 transition-colors duration-200"
-            >
-              <div class="flex items-center justify-between">
-                <p class="font-medium text-[color:var(--text)]">{{ activity.title }}</p>
-                <span class="text-sm text-[color:var(--primary)]">{{ formatRelativeDate(activity.createdAt) }}</span>
+      <div class="grid gap-6 2xl:grid-cols-[minmax(0,1.55fr)_minmax(19rem,0.72fr)]">
+        <div class="space-y-6">
+          <section class="dashboard-panel overflow-hidden">
+            <div class="flex items-center justify-between gap-4 border-b border-[color:var(--border)] px-5 py-4">
+              <div>
+                <h2 class="font-semibold text-[color:var(--text)]">Projetos em destaque</h2>
+                <p class="mt-1 text-xs text-[color:var(--text-muted)]">Acompanhe o avanço das suas iniciativas.</p>
               </div>
-              <p class="mt-2 text-sm text-[color:var(--text-muted)]">{{ activity.description }}</p>
+              <NuxtLink to="/projects" class="text-sm font-semibold text-[color:var(--primary)]">Ver todos</NuxtLink>
             </div>
-          </div>
+            <div v-if="!loading && projectSummaries.length === 0" class="px-5 py-8 text-sm text-[color:var(--text-muted)]">
+              Você ainda não participa de nenhum projeto. Crie o primeiro para acompanhar o progresso aqui.
+            </div>
+            <div v-else class="divide-y divide-[color:var(--border)]">
+              <NuxtLink v-for="project in projectSummaries" :key="project.id" :to="`/projects/${project.id}`" class="group flex items-center gap-4 px-5 py-4 transition hover:bg-[color:var(--surface-soft)]">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[color:var(--accent-soft-bg)] text-lg">✦</div>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center justify-between gap-4">
+                    <p class="truncate font-medium text-[color:var(--text)]">{{ project.title }}</p>
+                    <span class="text-sm font-semibold text-[color:var(--primary)]">{{ project.progress }}%</span>
+                  </div>
+                  <p class="mt-1 truncate text-xs text-[color:var(--text-muted)]">{{ project.members }} membro(s) · {{ project.tasks }} tarefa(s)</p>
+                  <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-[color:var(--surface-2)]">
+                    <div class="h-full rounded-full bg-[color:var(--primary)] transition-all" :style="{ width: `${project.progress}%` }"></div>
+                  </div>
+                </div>
+              </NuxtLink>
+            </div>
+          </section>
+
+          <section class="dashboard-panel">
+            <div class="flex items-center justify-between gap-4 px-5 py-4">
+              <div>
+                <h2 class="font-semibold text-[color:var(--text)]">Tarefas prioritárias</h2>
+                <p class="mt-1 text-xs text-[color:var(--text-muted)]">O que precisa de atenção no próximo passo.</p>
+              </div>
+              <span class="rounded-full bg-[color:var(--accent-soft-bg)] px-2.5 py-1 text-xs font-semibold text-[color:var(--text-info)]">{{ pendingTasks.length }} abertas</span>
+            </div>
+            <div class="space-y-2 px-5 pb-5">
+              <p v-if="!loading && priorityTasks.length === 0" class="rounded-xl bg-[color:var(--surface-soft)] px-4 py-5 text-sm text-[color:var(--text-muted)]">Nenhuma tarefa pendente. Excelente ritmo!</p>
+              <div v-for="task in priorityTasks" :key="task.id" class="flex items-center gap-3 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-soft)] px-3 py-3">
+                <span class="h-4 w-4 rounded border border-[color:var(--border-hover)]"></span>
+                <div class="min-w-0 flex-1">
+                  <p class="truncate text-sm font-medium text-[color:var(--text)]">{{ task.title }}</p>
+                  <p class="mt-0.5 text-xs text-[color:var(--text-muted)]">{{ task.projectTitle }}</p>
+                </div>
+                <span class="rounded-md bg-[color:var(--accent-soft-bg)] px-2 py-1 text-xs text-[color:var(--text-info)]">{{ formatStatus(task.status) }}</span>
+              </div>
+            </div>
+          </section>
         </div>
 
-        <div class="rounded-[1.75rem] border border-[color:var(--border)] bg-[color:var(--surface)]/70 p-6 transition-colors duration-200">
-          <h2 class="text-xl font-semibold text-[color:var(--text)]">Meus projetos</h2>
-          <div class="mt-6 space-y-3">
-            <p v-if="!loading && projects.length === 0" class="text-sm text-[color:var(--text-muted)]">
-              Você ainda não participa de nenhum projeto.
-            </p>
-            <NuxtLink
-              v-for="project in projects.slice(0, 5)"
-              :key="project.id"
-              :to="`/projects/${project.id}`"
-              class="flex items-center justify-between rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)]/70 px-4 py-3 transition-colors duration-200 hover:border-[color:var(--border-hover)]"
-            >
-              <div>
-                <p class="font-medium text-[color:var(--text)]">{{ project.title }}</p>
-                <p class="text-sm text-[color:var(--text-muted)]">{{ project.members.length }} membro(s)</p>
+        <aside class="space-y-6">
+          <section class="dashboard-panel overflow-hidden">
+            <div class="flex items-center justify-between border-b border-[color:var(--border)] px-5 py-4">
+              <h2 class="font-semibold text-[color:var(--text)]"><span class="mr-2 text-[color:var(--success-text)]">●</span>Chat em tempo real</h2>
+              <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[color:var(--text-muted)]">Em breve</span>
+            </div>
+            <div class="space-y-3 p-5">
+              <div class="max-w-[88%] rounded-2xl rounded-tl-sm bg-[color:var(--surface-2)] p-3 text-sm text-[color:var(--text-muted)]">As conversas da equipe aparecerão aqui, conectadas ao contexto de cada projeto.</div>
+              <div class="ml-auto max-w-[88%] rounded-2xl rounded-tr-sm bg-[color:var(--accent-soft-bg)] p-3 text-sm text-[color:var(--text-info)]">Decisões, dúvidas e atualizações sem alternar ferramentas.</div>
+              <div class="mt-5 flex items-center gap-2 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-soft)] p-2 text-xs text-[color:var(--text-muted)]">
+                <span class="flex-1 px-2">Mensagens estarão disponíveis em breve</span>
+                <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-[color:var(--accent-soft-bg)] text-[color:var(--text-info)]">→</span>
               </div>
-              <span class="text-sm text-[color:var(--primary)]">{{ project.tasks.length }} tarefa(s)</span>
-            </NuxtLink>
-          </div>
-        </div>
+            </div>
+          </section>
+
+          <section class="dashboard-panel p-5">
+            <div class="flex items-center justify-between">
+              <h2 class="font-semibold text-[color:var(--text)]">Arquivos recentes</h2>
+              <span class="text-xs font-semibold text-[color:var(--primary)]">Em breve</span>
+            </div>
+            <div class="mt-4 flex items-center gap-3 rounded-xl border border-dashed border-[color:var(--border)] bg-[color:var(--surface-soft)] p-4">
+              <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-[color:var(--accent-soft-bg)] text-lg">⌁</span>
+              <p class="text-sm leading-5 text-[color:var(--text-muted)]">Compartilhe arquivos com contexto dentro dos seus projetos.</p>
+            </div>
+          </section>
+        </aside>
       </div>
     </div>
   </BaseLayout>
@@ -133,43 +166,35 @@ const completionRate = computed(() => {
   return Math.round((done / allTasks.length) * 100);
 });
 
-const recentActivities = computed(() => {
-  const projectActivities = projects.value.map((project) => ({
+const pendingTasks = computed(() => projects.value.flatMap((project) =>
+  project.tasks
+    .filter((task) => task.status !== 'DONE')
+    .map((task) => ({ ...task, projectTitle: project.title }))
+));
+
+const priorityTasks = computed(() => pendingTasks.value.slice(0, 4));
+
+const projectSummaries = computed(() => projects.value.slice(0, 4).map((project) => {
+  const completedTasks = project.tasks.filter((task) => task.status === 'DONE').length;
+  const progress = project.tasks.length === 0 ? 0 : Math.round((completedTasks / project.tasks.length) * 100);
+
+  return {
     id: project.id,
-    type: 'project',
-    title: `Projeto "${project.title}" criado`,
-    description: project.description || 'Sem descrição.',
-    createdAt: project.createdAt
-  }));
+    title: project.title,
+    members: project.members.length,
+    tasks: project.tasks.length,
+    progress
+  };
+}));
 
-  const taskActivities = projects.value.flatMap((project) =>
-    project.tasks.map((task) => ({
-      id: task.id,
-      type: 'task',
-      title: `Tarefa "${task.title}"`,
-      description: `Status atual: ${task.status} · Projeto: ${project.title}`,
-      createdAt: task.createdAt
-    }))
-  );
+function formatStatus(status: string) {
+  const labels: Record<string, string> = {
+    TODO: 'A fazer',
+    IN_PROGRESS: 'Em andamento',
+    REVIEW: 'Em revisão'
+  };
 
-  return [...projectActivities, ...taskActivities]
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 5);
-});
-
-function formatRelativeDate(dateString: string) {
-  const date = new Date(dateString);
-  const diffMs = Date.now() - date.getTime();
-  const diffMinutes = Math.floor(diffMs / 60000);
-
-  if (diffMinutes < 1) return 'agora';
-  if (diffMinutes < 60) return `há ${diffMinutes} min`;
-
-  const diffHours = Math.floor(diffMinutes / 60);
-  if (diffHours < 24) return `há ${diffHours}h`;
-
-  const diffDays = Math.floor(diffHours / 24);
-  return `há ${diffDays}d`;
+  return labels[status] || status;
 }
 
 async function fetchProjects() {
@@ -188,3 +213,57 @@ onMounted(() => {
   fetchProjects();
 });
 </script>
+
+<style scoped>
+.dashboard-stat,
+.dashboard-panel {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  box-shadow: 0 18px 40px -28px var(--shadow-tint);
+}
+
+.dashboard-stat {
+  display: flex;
+  min-height: 9.5rem;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  transition: border-color 180ms ease, transform 180ms ease, background-color 180ms ease;
+}
+
+.dashboard-stat:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.dashboard-stat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.dashboard-stat strong {
+  margin-top: 0.9rem;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--text);
+}
+
+.dashboard-stat-note {
+  margin-top: 0.7rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.dashboard-stat-accent {
+  border-color: var(--accent-soft-border);
+  background: linear-gradient(135deg, var(--accent-soft-bg), var(--accent-gradient-b));
+}
+
+.dashboard-panel {
+  border-radius: 1rem;
+}
+</style>
