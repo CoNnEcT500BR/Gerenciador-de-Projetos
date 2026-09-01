@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { loginService, registerService } from './auth.service.js';
 import { loginSchema, registerSchema } from './auth.schema.js';
+import { setAuthCookies, clearAuthCookies } from './auth.cookies.js';
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) return error.message;
@@ -15,8 +16,9 @@ export async function loginController(req: Request, res: Response) {
   }
 
   try {
-    const result = await loginService(parsed.data);
-    res.json(result);
+    const { user, token } = await loginService(parsed.data);
+    setAuthCookies(res, token);
+    res.json({ user });
   } catch (error) {
     res.status(400).json({ error: getErrorMessage(error) });
   }
@@ -30,9 +32,16 @@ export async function registerController(req: Request, res: Response) {
   }
 
   try {
-    const result = await registerService(parsed.data);
-    res.status(201).json(result);
+    const { user, token } = await registerService(parsed.data);
+    setAuthCookies(res, token);
+    res.status(201).json({ user });
   } catch (error) {
     res.status(400).json({ error: getErrorMessage(error) });
   }
 }
+
+export async function logoutController(_req: Request, res: Response) {
+  clearAuthCookies(res);
+  res.status(204).send();
+}
+

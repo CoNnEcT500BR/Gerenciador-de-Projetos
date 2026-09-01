@@ -5,6 +5,7 @@ import {
   getProjectByIdService,
   getProjectsService
 } from './project.service.js';
+import { createProjectSchema } from './project.schema.js';
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) return error.message;
@@ -36,8 +37,14 @@ export async function getProjectByIdController(req: AuthRequest, res: Response) 
 }
 
 export async function createProjectController(req: AuthRequest, res: Response) {
+  const parsed = createProjectSchema.safeParse(req.body);
+
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Dados de projeto inválidos' });
+  }
+
   try {
-    const project = await createProjectService(req.user!.userId, req.body);
+    const project = await createProjectService(req.user!.userId, parsed.data);
     res.status(201).json(project);
   } catch (error) {
     res.status(400).json({ error: getErrorMessage(error) });

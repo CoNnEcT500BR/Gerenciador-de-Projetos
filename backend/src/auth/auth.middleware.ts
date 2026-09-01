@@ -11,16 +11,14 @@ export interface AuthRequest extends Request {
 }
 
 export function authenticate(req: AuthRequest, res: Response, next: NextFunction) {
+  // Prefer the httpOnly cookie set on login/register; fall back to Authorization header for API/tool usage.
+  const cookieToken = req.cookies?.token;
   const authHeader = req.headers.authorization;
-
-  if (!authHeader) {
-    return res.status(401).json({ error: 'Token não fornecido' });
-  }
-
-  const token = authHeader.split(' ')[1];
+  const headerToken = authHeader?.split(' ')[1];
+  const token = cookieToken ?? headerToken;
 
   if (!token) {
-    return res.status(401).json({ error: 'Token inválido' });
+    return res.status(401).json({ error: 'Token não fornecido' });
   }
 
   try {
