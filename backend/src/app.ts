@@ -6,6 +6,7 @@ import { json } from 'express';
 import authRoutes from './auth/auth.routes.js';
 import projectRoutes from './projects/project.routes.js';
 import taskRoutes from './tasks/task.routes.js';
+import userRoutes from './users/user.routes.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
 app.use('/projects', projectRoutes);
 app.use('/tasks', taskRoutes);
 

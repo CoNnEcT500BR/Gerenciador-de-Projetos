@@ -27,6 +27,7 @@ model Project {
     messages      Message[]
     notifications Notification[]
     createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
 }
 
 model ProjectMember {
@@ -37,6 +38,8 @@ model ProjectMember {
     projectId Int
     role      String   @default("MEMBER")
     createdAt DateTime @default(now())
+
+    @@unique([userId, projectId])
 }
 
 model Task {
@@ -47,6 +50,7 @@ model Task {
     project     Project  @relation(fields: [projectId], references: [id])
     projectId   Int
     createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
 
 model Message {

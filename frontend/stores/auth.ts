@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import axios from 'axios';
 import { computed, ref } from 'vue';
 
 interface AuthUser {
@@ -11,6 +12,7 @@ interface AuthUser {
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<AuthUser | null>(null);
   const token = ref('');
+  const isReady = ref(false);
 
   const isAuthenticated = computed(() => Boolean(token.value));
 
@@ -41,5 +43,24 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { user, token, isAuthenticated, setAuth, logout, hydrate };
+  async function fetchMe() {
+    if (!token.value) {
+      isReady.value = true;
+      return;
+    }
+
+    try {
+      const config = useRuntimeConfig();
+      const response = await axios.get(`${config.public.apiBase}/users/me`, {
+        headers: { Authorization: `Bearer ${token.value}` }
+      });
+      user.value = response.data;
+    } catch {
+      logout();
+    } finally {
+      isReady.value = true;
+    }
+  }
+
+  return { user, token, isReady, isAuthenticated, setAuth, logout, hydrate, fetchMe };
 });

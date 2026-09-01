@@ -25,6 +25,12 @@
                   <div class="text-[color:var(--text-muted)]">{{ authStore.user?.email || 'conta@empresa.com' }}</div>
                 </div>
               </div>
+              <button
+                @click="handleLogout"
+                class="rounded-full border border-[color:var(--border)] bg-[color:var(--surface-soft)] px-3 py-2 text-sm text-[color:var(--text-muted)] transition hover:border-[color:var(--border-hover)] hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)]"
+              >
+                Sair
+              </button>
             </div>
           </div>
         </header>
@@ -39,10 +45,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useRouter } from '#imports';
 import { useAuthStore } from '@/stores/auth';
 import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 
 const authStore = useAuthStore();
+const router = useRouter();
 
 const initials = computed(() => {
   const name = authStore.user?.name || 'Usuário';
@@ -52,4 +60,9 @@ const initials = computed(() => {
     .map((part) => part[0]?.toUpperCase() || '')
     .join('');
 });
+
+async function handleLogout() {
+  authStore.logout();
+  await router.push('/login');
+}
 </script>

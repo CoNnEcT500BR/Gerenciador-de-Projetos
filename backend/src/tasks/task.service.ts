@@ -7,8 +7,11 @@ interface TaskInput {
   projectId: number;
 }
 
-export async function getTasksService() {
-  return prisma.task.findMany();
+export async function getTasksService(projectId: number) {
+  return prisma.task.findMany({
+    where: { projectId },
+    orderBy: { createdAt: 'desc' }
+  });
 }
 
 export async function createTaskService(data: TaskInput) {
@@ -21,5 +24,12 @@ export async function createTaskService(data: TaskInput) {
         connect: { id: data.projectId }
       }
     }
+  });
+}
+
+export async function updateTaskStatusService(taskId: number, status: string) {
+  return prisma.task.update({
+    where: { id: taskId },
+    data: { status }
   });
 }

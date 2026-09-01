@@ -11,4 +11,8 @@
 
 <script setup lang="ts">
 import BaseLayout from '@/components/layout/BaseLayout.vue';
+
+definePageMeta({
+  middleware: 'auth'
+});
 </script>
