@@ -14,16 +14,29 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN ?? 'http://localhost:3001')
+const isProduction = process.env.NODE_ENV === 'production';
+const configuredOrigins = (process.env.CORS_ORIGIN ?? 'http://localhost:3000,http://localhost:3001')
   .split(',')
-  .map((origin) => origin.trim());
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const isAllowedLocalDevOrigin = (origin: string) =>
+  /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
 
 app.use(helmet());
 app.use(
   cors({
     origin(origin, callback) {
       // Allow tools without an Origin header (curl, server-to-server) and configured origins only.
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (configuredOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      if (!isProduction && isAllowedLocalDevOrigin(origin)) {
         return callback(null, true);
       }
 

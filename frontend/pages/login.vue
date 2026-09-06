@@ -82,7 +82,7 @@
             </div>
             <div>
               <label class="mb-2 block text-sm font-medium text-[color:var(--text-muted)]">Senha</label>
-              <input v-model="password" type="password" required class="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] placeholder:text-[color:var(--text-muted)] outline-none transition focus:border-[color:var(--primary)]" />
+              <input v-model="password" type="password" required minlength="6" class="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] placeholder:text-[color:var(--text-muted)] outline-none transition focus:border-[color:var(--primary)]" />
             </div>
 
             <p v-if="error" class="rounded-xl border border-[color:var(--danger-border)] bg-[color:var(--danger-bg)] px-3 py-2 text-sm text-[color:var(--danger-text)]">{{ error }}</p>

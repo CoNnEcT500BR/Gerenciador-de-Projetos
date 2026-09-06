@@ -17,6 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   function setAuth(data: { user: AuthUser }) {
     user.value = data.user;
+    isReady.value = true;
   }
 
   async function logout() {
