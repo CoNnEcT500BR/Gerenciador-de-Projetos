@@ -2,7 +2,11 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import prisma from '../prisma/client.js';
 
-const JWT_SECRET = process.env.JWT_SECRET ?? 'secret';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET && process.env.NODE_ENV === 'production') {
+  throw new Error('JWT_SECRET é obrigatório em produção');
+}
+const signingSecret = JWT_SECRET ?? 'development-only-secret';
 
 interface RegisterInput {
   name: string;
@@ -35,7 +39,7 @@ export async function registerService(data: RegisterInput) {
     }
   });
 
-  const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
+  const token = jwt.sign({ userId: user.id, role: user.role }, signingSecret, {
     expiresIn: '7d'
   });
 
@@ -57,7 +61,7 @@ export async function loginService(data: LoginInput) {
     throw new Error('Credenciais inválidas');
   }
 
-  const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
+  const token = jwt.sign({ userId: user.id, role: user.role }, signingSecret, {
     expiresIn: '7d'
   });
 

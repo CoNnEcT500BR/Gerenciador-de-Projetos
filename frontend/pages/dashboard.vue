@@ -30,9 +30,13 @@
         </div>
         <div class="dashboard-stat dashboard-stat-accent">
           <span class="dashboard-stat-label">Colaboração</span>
-          <strong>Em breve</strong>
+          <NuxtLink to="/messages" class="font-semibold">Abrir chat</NuxtLink>
           <span class="dashboard-stat-note">Chat e arquivos no mesmo fluxo</span>
         </div>
+      </div>
+
+      <div v-if="error" class="rounded-2xl border border-[color:var(--danger-border)] bg-[color:var(--danger-bg)] px-4 py-3 text-sm text-[color:var(--danger-text)]" role="alert">
+        {{ error }}
       </div>
 
       <div class="grid gap-6 2xl:grid-cols-[minmax(0,1.55fr)_minmax(19rem,0.72fr)]">
@@ -71,7 +75,7 @@
                 <h2 class="font-semibold text-[color:var(--text)]">Tarefas prioritárias</h2>
                 <p class="mt-1 text-xs text-[color:var(--text-muted)]">O que precisa de atenção no próximo passo.</p>
               </div>
-              <span class="rounded-full bg-[color:var(--accent-soft-bg)] px-2.5 py-1 text-xs font-semibold text-[color:var(--text-info)]">{{ pendingTasks.length }} abertas</span>
+              <NuxtLink to="/tasks" class="rounded-full bg-[color:var(--accent-soft-bg)] px-2.5 py-1 text-xs font-semibold text-[color:var(--text-info)]">{{ pendingTasks.length }} abertas</NuxtLink>
             </div>
             <div class="space-y-2 px-5 pb-5">
               <p v-if="!loading && priorityTasks.length === 0" class="rounded-xl bg-[color:var(--surface-soft)] px-4 py-5 text-sm text-[color:var(--text-muted)]">Nenhuma tarefa pendente. Excelente ritmo!</p>
@@ -91,14 +95,14 @@
           <section class="dashboard-panel overflow-hidden">
             <div class="flex items-center justify-between border-b border-[color:var(--border)] px-5 py-4">
               <h2 class="font-semibold text-[color:var(--text)]"><span class="mr-2 text-[color:var(--success-text)]">●</span>Chat em tempo real</h2>
-              <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[color:var(--text-muted)]">Em breve</span>
+              <NuxtLink to="/messages" class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[color:var(--primary)]">Abrir chat</NuxtLink>
             </div>
             <div class="space-y-3 p-5">
               <div class="max-w-[88%] rounded-2xl rounded-tl-sm bg-[color:var(--surface-2)] p-3 text-sm text-[color:var(--text-muted)]">As conversas da equipe aparecerão aqui, conectadas ao contexto de cada projeto.</div>
               <div class="ml-auto max-w-[88%] rounded-2xl rounded-tr-sm bg-[color:var(--accent-soft-bg)] p-3 text-sm text-[color:var(--text-info)]">Decisões, dúvidas e atualizações sem alternar ferramentas.</div>
               <div class="mt-5 flex items-center gap-2 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-soft)] p-2 text-xs text-[color:var(--text-muted)]">
-                <span class="flex-1 px-2">Mensagens estarão disponíveis em breve</span>
-                <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-[color:var(--accent-soft-bg)] text-[color:var(--text-info)]">→</span>
+                <NuxtLink to="/messages" class="flex-1 px-2">Conversas e anexos no contexto do projeto</NuxtLink>
+                <NuxtLink to="/messages" aria-label="Abrir mensagens" class="flex h-7 w-7 items-center justify-center rounded-lg bg-[color:var(--accent-soft-bg)] text-[color:var(--text-info)]">→</NuxtLink>
               </div>
             </div>
           </section>
@@ -106,11 +110,11 @@
           <section class="dashboard-panel p-5">
             <div class="flex items-center justify-between">
               <h2 class="font-semibold text-[color:var(--text)]">Arquivos recentes</h2>
-              <span class="text-xs font-semibold text-[color:var(--primary)]">Em breve</span>
+              <NuxtLink to="/messages" class="text-xs font-semibold text-[color:var(--primary)]">Ver no chat</NuxtLink>
             </div>
             <div class="mt-4 flex items-center gap-3 rounded-xl border border-dashed border-[color:var(--border)] bg-[color:var(--surface-soft)] p-4">
               <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-[color:var(--accent-soft-bg)] text-lg">⌁</span>
-              <p class="text-sm leading-5 text-[color:var(--text-muted)]">Compartilhe arquivos com contexto dentro dos seus projetos.</p>
+              <p class="text-sm leading-5 text-[color:var(--text-muted)]">Compartilhe arquivos com contexto dentro das conversas do projeto.</p>
             </div>
           </section>
         </aside>
@@ -156,6 +160,7 @@ const api = useApi();
 
 const projects = ref<Project[]>([]);
 const loading = ref(true);
+const error = ref('');
 
 const totalTasks = computed(() => projects.value.reduce((sum, project) => sum + project.tasks.length, 0));
 
@@ -189,6 +194,7 @@ const projectSummaries = computed(() => projects.value.slice(0, 4).map((project)
 
 function formatStatus(status: string) {
   const labels: Record<string, string> = {
+    PENDING: 'Pendente',
     TODO: 'A fazer',
     IN_PROGRESS: 'Em andamento',
     REVIEW: 'Em revisão'
@@ -199,11 +205,13 @@ function formatStatus(status: string) {
 
 async function fetchProjects() {
   loading.value = true;
+  error.value = '';
   try {
     const response = await api.get('/projects');
     projects.value = response.data;
   } catch {
     projects.value = [];
+    error.value = 'Não foi possível carregar os dados da workspace.';
   } finally {
     loading.value = false;
   }

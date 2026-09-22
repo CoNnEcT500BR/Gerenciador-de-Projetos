@@ -40,6 +40,10 @@
             <p class="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">
               {{ project.description || 'Sem descrição.' }}
             </p>
+            <div class="mt-4 flex gap-2" @click.prevent.stop>
+              <button class="rounded-xl border border-[color:var(--border)] px-3 py-1 text-xs text-[color:var(--text-muted)]" @click="editProject(project)">Editar</button>
+              <button class="rounded-xl border border-[color:var(--danger-border)] px-3 py-1 text-xs text-[color:var(--danger-text)]" @click="removeProject(project)">Excluir</button>
+            </div>
           </div>
           <div class="mt-6 flex items-center justify-between text-sm">
             <span class="text-[color:var(--text-muted)]">{{ project.members.length }} membro(s)</span>
@@ -178,6 +182,21 @@ async function submitCreate() {
   } finally {
     creating.value = false;
   }
+}
+
+async function editProject(project: Project) {
+  const title = window.prompt('Título do projeto', project.title);
+  if (title === null || !title.trim()) return;
+  const description = window.prompt('Descrição do projeto', project.description ?? '');
+  if (description === null) return;
+  await api.patch(`/projects/${project.id}`, { title: title.trim(), description });
+  await fetchProjects();
+}
+
+async function removeProject(project: Project) {
+  if (!window.confirm(`Excluir o projeto "${project.title}"?`)) return;
+  await api.delete(`/projects/${project.id}`);
+  await fetchProjects();
 }
 
 onMounted(() => {

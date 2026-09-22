@@ -1,0 +1,1 @@
+<template><article class="legal-text max-w-3xl space-y-8 rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface)] p-6 text-[color:var(--text-muted)] shadow-[0_18px_50px_var(--shadow-tint-soft)] sm:p-10"><slot /></article></template>

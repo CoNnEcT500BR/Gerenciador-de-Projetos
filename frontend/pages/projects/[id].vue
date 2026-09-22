@@ -18,6 +18,10 @@
             <h1 class="mt-3 text-3xl font-semibold text-[color:var(--text)]">{{ project.title }}</h1>
             <p class="mt-3 max-w-2xl text-sm leading-7 text-[color:var(--text-muted)]">{{ project.description || 'Sem descrição.' }}</p>
           </div>
+          <div class="flex gap-2">
+            <button class="rounded-2xl border border-[color:var(--border)] px-4 py-2 text-sm text-[color:var(--text-muted)]" @click="editProject">Editar projeto</button>
+            <button class="rounded-2xl border border-[color:var(--danger-border)] px-4 py-2 text-sm text-[color:var(--danger-text)]" @click="removeProject">Excluir</button>
+          </div>
           <button
             @click="isModalOpen = true"
             class="rounded-2xl bg-[color:var(--bg-button)] px-5 py-3 font-semibold text-[color:var(--text-button)] transition hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)]"
@@ -65,6 +69,10 @@
                 </span>
               </div>
               <p class="mt-2 text-sm text-[color:var(--text-muted)]">{{ task.description || 'Sem descrição.' }}</p>
+              <div class="mt-3 flex gap-2">
+              <button class="rounded-xl border border-[color:var(--border)] px-3 py-1 text-xs text-[color:var(--text-muted)]" @click="editTask(task)">Editar</button>
+              <button class="rounded-xl border border-[color:var(--danger-border)] px-3 py-1 text-xs text-[color:var(--danger-text)]" @click="removeTask(task)">Excluir</button>
+              </div>
 
               <div class="mt-3 flex flex-wrap gap-2">
                 <button
@@ -78,6 +86,9 @@
                 </button>
               </div>
             </div>
+          </div>
+          <div class="mt-6">
+            <ChatRoom :project-id="projectId" />
           </div>
         </div>
 
@@ -93,9 +104,14 @@
                 <p class="font-medium text-[color:var(--text)]">{{ member.user.name }}</p>
                 <p class="text-sm text-[color:var(--text-muted)]">{{ member.user.email }}</p>
               </div>
+              <button v-if="member.role !== 'OWNER'" class="text-xs text-[color:var(--danger-text)]" @click="removeMember(member)">Remover</button>
               <span class="text-sm text-[color:var(--primary)]">{{ member.role }}</span>
             </div>
           </div>
+          <form class="mt-4 flex gap-2" @submit.prevent="addMember">
+            <input v-model="memberEmail" type="email" required placeholder="email do membro" class="min-w-0 flex-1 rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-3 py-2 text-sm text-[color:var(--text)]" />
+            <button class="rounded-2xl bg-[color:var(--bg-button)] px-3 py-2 text-xs font-semibold text-[color:var(--text-button)]">Adicionar</button>
+          </form>
         </div>
       </div>
     </div>
@@ -156,6 +172,7 @@ import axios from 'axios';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute } from '#imports';
 import BaseLayout from '@/components/layout/BaseLayout.vue';
+import ChatRoom from '@/components/chat/ChatRoom.vue';
 import { useApi } from '@/composables/useApi';
 
 definePageMeta({
@@ -199,6 +216,7 @@ const taskForm = reactive({
   title: '',
   description: ''
 });
+const memberEmail = ref('');
 
 const statusFilters = [
   { value: 'ALL', label: 'Todas' },
@@ -278,6 +296,49 @@ async function changeTaskStatus(task: Task, newStatus: string) {
   } catch {
     // silently ignore; could add toast in the future
   }
+}
+
+async function editProject() {
+  if (!project.value) return;
+  const title = window.prompt('Título do projeto', project.value.title);
+  if (!title?.trim()) return;
+  const description = window.prompt('Descrição do projeto', project.value.description ?? '');
+  if (description === null) return;
+  await api.patch(`/projects/${projectId}`, { title: title.trim(), description });
+  await fetchProject();
+}
+
+async function removeProject() {
+  if (!window.confirm('Excluir este projeto?')) return;
+  await api.delete(`/projects/${projectId}`);
+  await navigateTo('/projects');
+}
+
+async function editTask(task: Task) {
+  const title = window.prompt('Título da tarefa', task.title);
+  if (!title?.trim()) return;
+  const description = window.prompt('Descrição da tarefa', task.description ?? '');
+  if (description === null) return;
+  await api.patch(`/tasks/${task.id}`, { title: title.trim(), description });
+  await fetchProject();
+}
+
+async function removeTask(task: Task) {
+  if (!window.confirm(`Excluir "${task.title}"?`)) return;
+  await api.delete(`/tasks/${task.id}`);
+  await fetchProject();
+}
+
+async function addMember() {
+  await api.post(`/projects/${projectId}/members`, { email: memberEmail.value });
+  memberEmail.value = '';
+  await fetchProject();
+}
+
+async function removeMember(member: ProjectMember) {
+  if (!window.confirm(`Remover ${member.user.name} do projeto?`)) return;
+  await api.delete(`/projects/${projectId}/members/${member.id}`);
+  await fetchProject();
 }
 
 onMounted(() => {

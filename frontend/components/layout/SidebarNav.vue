@@ -1,5 +1,5 @@
 <template>
-  <aside class="w-full border-b border-[color:var(--border)] bg-[color:var(--surface-strong)] px-4 py-5 backdrop-blur transition-colors duration-200 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-64 lg:flex-col lg:border-b-0 lg:border-r lg:px-4 lg:py-6">
+  <aside class="workspace-sidebar w-full border-b border-[color:var(--border)] bg-[color:var(--surface-strong)] px-4 py-5 backdrop-blur transition-colors duration-200 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-64 lg:flex-col lg:border-b-0 lg:border-r lg:px-4 lg:py-6">
     <div class="flex items-center justify-between">
       <BrandLogo />
       <div class="rounded-full border border-[color:var(--accent-soft-border)] bg-[color:var(--accent-soft-bg)] px-3 py-1 text-xs font-semibold text-[color:var(--text-info)]">
@@ -25,7 +25,7 @@
         class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition"
         :class="isActive(item.to) ? 'bg-[color:var(--accent-soft-bg)] text-[color:var(--text-info)] shadow-[0_10px_25px_-10px_var(--shadow-tint-soft)]' : 'text-[color:var(--text-muted)] hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text)]'"
       >
-        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-[color:var(--surface-soft)] text-sm">{{ item.icon }}</span>
+        <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-[color:var(--surface-soft)] text-sm" aria-hidden="true">{{ item.icon }}</span>
         <span>{{ item.name }}</span>
       </NuxtLink>
     </nav>

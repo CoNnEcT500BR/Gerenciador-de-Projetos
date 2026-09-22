@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-screen overflow-hidden bg-[color:var(--bg)] px-4 py-10 text-[color:var(--text)]">
+  <div class="auth-page relative min-h-screen overflow-hidden bg-[color:var(--bg)] px-4 py-8 text-[color:var(--text)] sm:py-10">
     <!-- Decorative background -->
     <div class="pointer-events-none absolute inset-0 -z-10">
       <div class="absolute inset-0 bg-[radial-gradient(circle,_var(--border)_1px,_transparent_1px)] bg-size-[28px_28px] opacity-30"></div>
@@ -13,7 +13,7 @@
     </div>
 
     <div class="mx-auto flex max-w-xl items-center justify-center xl:max-w-6xl">
-      <div class="auth-card grid w-full max-w-xl overflow-hidden rounded-4xl border border-[color:var(--border)] bg-[color:var(--surface)]/90 shadow-[0_25px_50px_-12px_var(--shadow-tint-soft)] backdrop-blur xl:max-w-6xl xl:grid-cols-[1.05fr_1fr]">
+      <div class="auth-card grid w-full max-w-xl overflow-hidden rounded-[1.75rem] border border-[color:var(--border)] bg-[color:var(--surface)]/95 shadow-[0_25px_50px_-12px_var(--shadow-tint-soft)] backdrop-blur xl:max-w-6xl xl:grid-cols-[1.05fr_1fr]">
 
         <!-- LEFT: brand panel -->
         <div class="auth-showcase relative hidden flex-col gap-10 overflow-hidden bg-linear-to-br from-[color:var(--accent-gradient-a)] to-[color:var(--accent-gradient-b)] p-10 xl:flex">
@@ -75,19 +75,19 @@
             <p class="mt-2 text-sm text-[color:var(--text-muted)]">Acesse sua workspace e siga seu fluxo.</p>
           </div>
 
-          <form @submit.prevent="submitLogin" class="auth-form space-y-4">
+          <form @submit.prevent="submitLogin" class="auth-form space-y-5">
             <div>
               <label class="mb-2 block text-sm font-medium text-[color:var(--text-muted)]">Email</label>
-              <input v-model="email" type="email" required class="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] placeholder:text-[color:var(--text-muted)] outline-none transition focus:border-[color:var(--primary)]" />
+              <input v-model="email" type="email" required autocomplete="email" placeholder="voce@empresa.com" class="field w-full rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] placeholder:text-[color:var(--text-muted)] outline-none transition focus:border-[color:var(--primary)]" />
             </div>
             <div>
               <label class="mb-2 block text-sm font-medium text-[color:var(--text-muted)]">Senha</label>
-              <input v-model="password" type="password" required minlength="6" class="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] placeholder:text-[color:var(--text-muted)] outline-none transition focus:border-[color:var(--primary)]" />
+              <input v-model="password" type="password" required minlength="6" autocomplete="current-password" placeholder="Sua senha" class="field w-full rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] placeholder:text-[color:var(--text-muted)] outline-none transition focus:border-[color:var(--primary)]" />
             </div>
 
             <p v-if="error" class="rounded-xl border border-[color:var(--danger-border)] bg-[color:var(--danger-bg)] px-3 py-2 text-sm text-[color:var(--danger-text)]">{{ error }}</p>
 
-            <button type="submit" :disabled="loading" class="w-full rounded-2xl bg-[color:var(--bg-button)] px-4 py-3 font-semibold text-[color:var(--text-button)] transition hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)] disabled:cursor-not-allowed disabled:opacity-70">
+            <button type="submit" :disabled="loading" class="w-full rounded-xl bg-[color:var(--bg-button)] px-4 py-3.5 font-semibold text-[color:var(--text-button)] transition hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)] disabled:cursor-not-allowed disabled:opacity-70">
               {{ loading ? 'Entrando...' : 'Entrar' }}
             </button>
           </form>

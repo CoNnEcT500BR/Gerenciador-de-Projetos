@@ -3,7 +3,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
-const EXEMPT_PATHS = new Set(['/auth/login', '/auth/register', '/auth/logout']);
+const EXEMPT_PATHS = new Set(['/auth/login', '/auth/register', '/auth/logout', '/contact']);
 
 export function verifyCsrf(req: Request, res: Response, next: NextFunction) {
   if (SAFE_METHODS.has(req.method) || EXEMPT_PATHS.has(req.path)) {
