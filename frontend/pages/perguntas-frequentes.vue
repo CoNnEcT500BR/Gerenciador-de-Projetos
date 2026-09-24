@@ -2,12 +2,7 @@
   <PublicPage eyebrow="FAQ" title="Perguntas frequentes" description="Respostas objetivas para as dúvidas mais comuns.">
     <label for="faq-search" class="sr-only">Buscar perguntas</label>
     <input id="faq-search" v-model="query" type="search" placeholder="Buscar pergunta..." class="mb-6 w-full rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)]" />
-    <div class="divide-y divide-[color:var(--border)] rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]">
-      <details v-for="item in filteredFaqs" :key="item.q" class="group p-5">
-        <summary class="cursor-pointer list-none font-semibold">{{ item.q }} <span aria-hidden="true" class="float-right group-open:rotate-45">＋</span></summary>
-        <p class="mt-3 max-w-3xl leading-6 text-[color:var(--text-muted)]">{{ item.a }}</p>
-      </details>
-    </div>
+    <FAQAccordion :items="filteredFaqs" />
     <p v-if="!filteredFaqs.length" class="mt-4 text-[color:var(--text-muted)]">Nenhuma pergunta encontrada.</p>
   </PublicPage>
 </template>

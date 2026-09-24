@@ -1,7 +1,8 @@
 import { computed } from 'vue';
 
 export function useTheme() {
-  const theme = useState<'dark' | 'light'>('theme', () => 'dark');
+  const persistedTheme = useCookie<'dark' | 'light'>('theme', { default: () => 'dark' });
+  const theme = useState<'dark' | 'light'>('theme', () => persistedTheme.value);
 
   const isDark = computed(() => theme.value === 'dark');
 
@@ -18,7 +19,8 @@ export function useTheme() {
     if (!import.meta.client) return;
 
     const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
-    theme.value = savedTheme || 'dark';
+    theme.value = savedTheme || persistedTheme.value || 'dark';
+    persistedTheme.value = theme.value;
   }
 
   function toggleTheme() {
@@ -27,6 +29,7 @@ export function useTheme() {
     if (!import.meta.client) return;
 
     localStorage.setItem('theme', theme.value);
+    persistedTheme.value = theme.value;
   }
 
   return { theme, isDark, initTheme, toggleTheme };

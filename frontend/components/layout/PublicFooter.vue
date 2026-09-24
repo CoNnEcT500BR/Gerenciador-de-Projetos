@@ -1,9 +1,9 @@
 <template>
   <footer class="public-footer border-t border-[color:var(--border)] bg-[color:var(--surface-soft)]">
-    <div class="mx-auto grid max-w-7xl gap-8 px-6 py-12 text-sm lg:grid-cols-[1.5fr_repeat(3,1fr)] lg:px-8">
+    <div class="mx-auto grid max-w-7xl gap-10 px-6 py-14 text-sm lg:grid-cols-[1.5fr_repeat(3,1fr)] lg:px-8">
       <div>
         <NuxtLink to="/"><BrandLogo /></NuxtLink>
-        <p class="mt-4 max-w-xs leading-6 text-[color:var(--text-muted)]">Um hub de execução para equipes que entregam.</p>
+        <p class="mt-4 max-w-xs leading-6 text-[color:var(--text-muted)]">Um hub de execução para equipes que transformam planos em entregas.</p>
         <NuxtLink
           to="/contato"
           class="mt-5 inline-flex rounded-full bg-[color:var(--bg-button)] px-4 py-2 text-xs font-bold text-[color:var(--text-button)] transition hover:bg-[color:var(--bg-button-hover)]"
@@ -25,7 +25,7 @@
 </template>
 <script setup lang="ts">
 const columns = [
-  { title: 'Produto', links: [{ label: 'Recursos', to: '/recursos' }, { label: 'Status', to: '/status' }, { label: 'Ajuda', to: '/ajuda' }] },
+  { title: 'Produto', links: [{ label: 'Recursos', to: '/recursos' }, { label: 'Status', to: '/status' }, { label: 'Perguntas frequentes', to: '/perguntas-frequentes' }, { label: 'Ajuda', to: '/ajuda' }] },
   { title: 'Empresa', links: [{ label: 'Sobre', to: '/sobre' }, { label: 'Depoimentos', to: '/depoimentos' }, { label: 'Contato', to: '/contato' }] },
   { title: 'Legal', links: [{ label: 'Privacidade', to: '/politica-de-privacidade' }, { label: 'Termos de uso', to: '/termos-de-uso' }, { label: 'Cookies', to: '/politica-de-cookies' }] }
 ]

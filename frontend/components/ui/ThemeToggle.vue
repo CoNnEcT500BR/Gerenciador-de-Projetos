@@ -6,9 +6,9 @@
     :aria-label="isDark ? 'Ativar modo claro' : 'Ativar modo escuro'"
     @click="toggleTheme"
   >
-    <span class="theme-toggle-track">
+    <span class="theme-toggle-track" aria-hidden="true">
       <span class="theme-toggle-thumb">
-        <span class="theme-toggle-icon">{{ isDark ? '☀' : '☾' }}</span>
+        <Icon class="theme-toggle-icon" :name="isDark ? 'sun' : 'moon'" :size="12" />
       </span>
     </span>
     <span class="theme-toggle-label">{{ isDark ? 'Claro' : 'Escuro' }}</span>
@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import { useTheme } from '@/composables/useTheme';
+import Icon from '@/components/ui/Icon.vue';
 
 const { isDark, toggleTheme } = useTheme();
 </script>
@@ -27,7 +28,7 @@ const { isDark, toggleTheme } = useTheme();
   align-items: center;
   gap: 0.75rem;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--surface-soft);
   color: var(--text);
   border-radius: 9999px;
   padding: 0.4rem 0.7rem 0.4rem 0.5rem;
@@ -77,7 +78,6 @@ const { isDark, toggleTheme } = useTheme();
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.72rem;
   line-height: 1;
 }
 

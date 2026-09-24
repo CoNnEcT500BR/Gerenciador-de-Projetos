@@ -1,167 +1,32 @@
 <template>
-  <div class="auth-page relative min-h-screen overflow-hidden bg-[color:var(--bg)] px-4 py-8 text-[color:var(--text)] sm:py-10">
-    <!-- Decorative background -->
-    <div class="pointer-events-none absolute inset-0 -z-10">
-      <div class="absolute inset-0 bg-[radial-gradient(circle,_var(--border)_1px,_transparent_1px)] bg-size-[28px_28px] opacity-30"></div>
-    </div>
-
-    <div class="relative z-10 mx-auto mb-7 max-w-xl xl:max-w-6xl">
-      <NuxtLink to="/" class="inline-flex items-center gap-2 text-sm font-medium text-[color:var(--text-muted)] transition hover:text-[color:var(--text)]">
-        <span aria-hidden="true">←</span>
-        Voltar para o início
-      </NuxtLink>
-    </div>
-
-    <div class="mx-auto flex max-w-xl items-center justify-center xl:max-w-6xl">
-      <div class="auth-card grid w-full max-w-xl overflow-hidden rounded-[1.75rem] border border-[color:var(--border)] bg-[color:var(--surface)]/95 shadow-[0_25px_50px_-12px_var(--shadow-tint-soft)] backdrop-blur xl:max-w-6xl xl:grid-cols-[1.05fr_1fr]">
-
-        <!-- LEFT: brand panel -->
-        <div class="auth-showcase relative hidden flex-col gap-10 overflow-hidden bg-linear-to-br from-[color:var(--accent-gradient-a)] to-[color:var(--accent-gradient-b)] p-10 xl:flex">
-          <BrandLogo />
-
-          <div class="space-y-5">
-            <div class="inline-flex rounded-full border border-[color:var(--accent-soft-border)] bg-[color:var(--accent-soft-bg)] px-3 py-1 text-xs font-medium text-[color:var(--text-info)]">
-              Seu centro de execução
-            </div>
-            <h2 class="text-3xl font-semibold leading-tight">Retome o que importa para sua equipe.</h2>
-            <p class="max-w-sm text-sm leading-6 text-[color:var(--text-muted)]">Projetos, prioridades e decisões organizados para o seu próximo avanço.</p>
-
-            <div class="grid grid-cols-2 gap-3 text-sm">
-              <div class="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]/60 p-3">
-                <p class="text-xl font-semibold text-[color:var(--text)]">+2.500</p>
-                <p class="text-xs text-[color:var(--text-muted)]">Equipes conectadas</p>
-              </div>
-              <div class="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]/60 p-3">
-                <p class="text-xl font-semibold text-[color:var(--text)]">24/7</p>
-                <p class="text-xs text-[color:var(--text-muted)]">Visão de trabalho</p>
-              </div>
-            </div>
-
-            <ul class="space-y-3 text-sm text-[color:var(--text-muted)]">
-              <li class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-[color:var(--brand-from)]"></span>
-                Projetos e tarefas sempre atualizados
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-[color:var(--brand-from)]"></span>
-                Chat em tempo real com sua equipe
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-[color:var(--brand-from)]"></span>
-                Painel único para acompanhar entregas
-              </li>
-            </ul>
-          </div>
-
-          <p class="mt-auto text-xs text-[color:var(--text-muted)]">&copy; {{ new Date().getFullYear() }} NovaHub</p>
-        </div>
-
-        <!-- RIGHT: form -->
-        <div class="p-8 sm:p-10 xl:p-12">
-          <div class="mb-6 flex items-center justify-between xl:hidden">
-            <BrandLogo />
-            <ThemeToggle />
-          </div>
-
-          <div class="mb-6 hidden justify-end xl:flex">
-            <ThemeToggle />
-          </div>
-
-          <div class="mb-6">
-            <div class="mb-3 inline-flex rounded-full border border-[color:var(--accent-soft-border)] bg-[color:var(--accent-soft-bg)] px-3 py-1 text-xs font-medium text-[color:var(--text-info)] xl:hidden">
-              Bem-vindo de volta
-            </div>
-            <h1 class="text-3xl font-bold tracking-tight">Entrar</h1>
-            <p class="mt-2 text-sm text-[color:var(--text-muted)]">Acesse sua workspace e siga seu fluxo.</p>
-          </div>
-
-          <form @submit.prevent="submitLogin" class="auth-form space-y-5">
-            <div>
-              <label class="mb-2 block text-sm font-medium text-[color:var(--text-muted)]">Email</label>
-              <input v-model="email" type="email" required autocomplete="email" placeholder="voce@empresa.com" class="field w-full rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] placeholder:text-[color:var(--text-muted)] outline-none transition focus:border-[color:var(--primary)]" />
-            </div>
-            <div>
-              <label class="mb-2 block text-sm font-medium text-[color:var(--text-muted)]">Senha</label>
-              <input v-model="password" type="password" required minlength="6" autocomplete="current-password" placeholder="Sua senha" class="field w-full rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] placeholder:text-[color:var(--text-muted)] outline-none transition focus:border-[color:var(--primary)]" />
-            </div>
-
-            <p v-if="error" class="rounded-xl border border-[color:var(--danger-border)] bg-[color:var(--danger-bg)] px-3 py-2 text-sm text-[color:var(--danger-text)]">{{ error }}</p>
-
-            <button type="submit" :disabled="loading" class="w-full rounded-xl bg-[color:var(--bg-button)] px-4 py-3.5 font-semibold text-[color:var(--text-button)] transition hover:bg-[color:var(--bg-button-hover)] hover:text-[color:var(--text-button-hover)] disabled:cursor-not-allowed disabled:opacity-70">
-              {{ loading ? 'Entrando...' : 'Entrar' }}
-            </button>
-          </form>
-
-          <div class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[color:var(--text-muted)]">
-            <span class="flex items-center gap-1">
-              <span class="text-[color:var(--success-text)]">✓</span>
-              Acesso seguro
-            </span>
-            <span class="flex items-center gap-1">
-              <span class="text-[color:var(--success-text)]">✓</span>
-              Dados protegidos
-            </span>
-          </div>
-
-          <p class="mt-5 text-center text-sm text-[color:var(--text-muted)]">
-            Novo por aqui?
-            <NuxtLink to="/register" class="font-semibold text-[color:var(--primary)]">Crie uma conta</NuxtLink>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <AuthShell showcase-title="Retome o que importa para sua equipe." showcase-description="Projetos, prioridades e decisões organizados para o seu próximo avanço.">
+    <div class="mb-8"><p class="page-kicker">Bem-vindo de volta</p><h1 class="mt-3 text-3xl font-bold tracking-tight">Entrar na sua workspace</h1><p class="mt-2 text-sm text-[color:var(--text-muted)]">Acesse o NovaHub e siga seu fluxo.</p></div>
+    <form class="space-y-5" @submit.prevent="submitLogin">
+      <div><label for="login-email" class="mb-2 block text-sm font-medium">Email</label><input id="login-email" v-model="email" type="email" required autocomplete="email" placeholder="voce@empresa.com" class="field w-full px-4 py-3" /></div>
+      <div><label for="login-password" class="mb-2 block text-sm font-medium">Senha</label><input id="login-password" v-model="password" type="password" required minlength="6" autocomplete="current-password" placeholder="Sua senha" class="field w-full px-4 py-3" /></div>
+      <p v-if="error" class="rounded-xl border border-[color:var(--danger-border)] bg-[color:var(--danger-bg)] px-3 py-2 text-sm text-[color:var(--danger-text)]" role="alert">{{ error }}</p>
+      <button type="submit" :disabled="loading" class="min-h-12 w-full rounded-xl bg-[color:var(--bg-button)] px-4 py-3 font-semibold text-[color:var(--text-button)] transition hover:bg-[color:var(--bg-button-hover)] disabled:opacity-60">{{ loading ? 'Entrando...' : 'Entrar' }}</button>
+    </form>
+    <p class="mt-6 text-center text-sm text-[color:var(--text-muted)]">Novo por aqui? <NuxtLink to="/register" class="font-semibold text-[color:var(--primary)]">Crie uma conta</NuxtLink></p>
+  </AuthShell>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from '#imports';
+import AuthShell from '@/components/layout/AuthShell.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useApi } from '@/composables/useApi';
-import BrandLogo from '@/components/ui/BrandLogo.vue';
-import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 
-const email = ref('');
-const password = ref('');
-const loading = ref(false);
-const error = ref('');
+definePageMeta({ middleware: 'guest' });
 
-const authStore = useAuthStore();
-const router = useRouter();
-const api = useApi();
-
+const email = ref(''); const password = ref(''); const loading = ref(false); const error = ref('');
+const authStore = useAuthStore(); const router = useRouter(); const api = useApi();
 async function submitLogin() {
-  error.value = '';
-  loading.value = true;
-
-  try {
-    const response = await api.post('/auth/login', {
-      email: email.value,
-      password: password.value,
-    });
-
-    authStore.setAuth(response.data);
-    await router.push('/dashboard');
-  } catch (err) {
-    if (axios.isAxiosError(err)) {
-      error.value =
-        err.response?.data?.error ?? 'Erro ao entrar. Tente novamente.';
-    } else {
-      error.value = 'Erro inesperado.';
-    }
-  } finally {
-    loading.value = false;
-  }
+  error.value = ''; loading.value = true;
+  try { const response = await api.post('/auth/login', { email: email.value, password: password.value }); authStore.setAuth(response.data); await router.push('/dashboard'); }
+  catch (err) { error.value = axios.isAxiosError(err) ? (err.response?.data?.error ?? 'Erro ao entrar. Tente novamente.') : 'Erro inesperado.'; }
+  finally { loading.value = false; }
 }
 </script>
-
-<style scoped>
-.auth-card {
-  box-shadow: 0 30px 80px -30px var(--shadow-tint);
-}
-
-.auth-form input:focus {
-  box-shadow: 0 0 0 4px var(--accent-soft-bg);
-}
-</style>

@@ -8,11 +8,11 @@
       </section>
       <div class="surface-card max-w-2xl p-6 sm:p-8">
         <form class="space-y-5" @submit.prevent="save">
-          <label class="block text-sm font-medium text-[color:var(--text-muted)]">Nome
-            <input v-model="form.name" required autocomplete="name" class="field mt-2 w-full rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] outline-none focus:border-[color:var(--primary)]" />
+          <label for="profile-name" class="block text-sm font-medium text-[color:var(--text-muted)]">Nome
+            <input id="profile-name" v-model="form.name" required autocomplete="name" class="field mt-2 w-full px-4 py-3" />
           </label>
-          <label class="block text-sm font-medium text-[color:var(--text-muted)]">E-mail
-            <input v-model="form.email" type="email" required autocomplete="email" class="field mt-2 w-full rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] outline-none focus:border-[color:var(--primary)]" />
+          <label for="profile-email" class="block text-sm font-medium text-[color:var(--text-muted)]">E-mail
+            <input id="profile-email" v-model="form.email" type="email" required autocomplete="email" class="field mt-2 w-full px-4 py-3" />
           </label>
           <p v-if="message" class="text-sm text-[color:var(--success-text)]">{{ message }}</p>
           <p v-if="error" class="text-sm text-[color:var(--danger-text)]">{{ error }}</p>

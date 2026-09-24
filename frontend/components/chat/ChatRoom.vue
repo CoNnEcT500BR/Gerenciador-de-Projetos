@@ -34,11 +34,11 @@
         <span class="truncate text-[color:var(--text)]">{{ selectedFile.name }}</span>
         <button type="button" class="shrink-0 text-[color:var(--danger-text)]" @click="selectedFile = null">Remover</button>
       </div>
-      <div class="flex gap-2">
-      <input v-model="draft" maxlength="2000" placeholder="Escreva uma mensagem..." class="min-w-0 flex-1 rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-sm text-[color:var(--text)] outline-none focus:border-[color:var(--primary)]" />
-      <label class="flex cursor-pointer items-center rounded-2xl border border-[color:var(--border)] px-3 text-xs font-semibold text-[color:var(--text-muted)] hover:bg-[color:var(--surface-soft)]">
+      <div class="flex flex-col gap-2 sm:flex-row">
+      <input v-model="draft" maxlength="2000" aria-label="Mensagem" placeholder="Escreva uma mensagem..." class="field min-w-0 flex-1 px-4 py-3 text-sm" />
+      <label class="flex min-h-12 cursor-pointer items-center justify-center rounded-2xl border border-[color:var(--border)] px-3 text-xs font-semibold text-[color:var(--text-muted)] hover:bg-[color:var(--surface-soft)]">
         Anexar
-        <input type="file" class="sr-only" :disabled="sending" @change="selectFile" />
+        <input type="file" class="sr-only" :disabled="sending" aria-label="Anexar arquivo" @change="selectFile" />
       </label>
       <button class="rounded-2xl bg-[color:var(--bg-button)] px-4 py-3 text-sm font-semibold text-[color:var(--text-button)] disabled:opacity-60" :disabled="!connected || sending || (!draft.trim() && !selectedFile)">{{ sending ? 'Enviando...' : 'Enviar' }}</button>
       </div>

@@ -53,30 +53,25 @@
       </div>
     </div>
 
-    <!-- Modal de criação -->
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      @click.self="isModalOpen = false"
-    >
-      <div class="w-full max-w-md rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface)] p-6 shadow-[0_25px_50px_-12px_var(--shadow-tint-soft)]">
-        <h2 class="text-xl font-semibold text-[color:var(--text)]">Novo projeto</h2>
+    <BaseModal :open="isModalOpen" title="Novo projeto" @close="isModalOpen = false">
         <form @submit.prevent="submitCreate" class="mt-4 space-y-4">
           <div>
-            <label class="mb-2 block text-sm font-medium text-[color:var(--text-muted)]">Título</label>
+            <label for="project-title" class="mb-2 block text-sm font-medium text-[color:var(--text-muted)]">Título</label>
             <input
+              id="project-title"
               v-model="form.title"
               type="text"
               required
-              class="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] outline-none transition focus:border-[color:var(--primary)]"
+              class="field w-full px-4 py-3"
             />
           </div>
           <div>
-            <label class="mb-2 block text-sm font-medium text-[color:var(--text-muted)]">Descrição</label>
+            <label for="project-description" class="mb-2 block text-sm font-medium text-[color:var(--text-muted)]">Descrição</label>
             <textarea
+              id="project-description"
               v-model="form.description"
               rows="3"
-              class="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)] px-4 py-3 text-[color:var(--text)] outline-none transition focus:border-[color:var(--primary)]"
+              class="field w-full px-4 py-3"
             ></textarea>
           </div>
 
@@ -99,8 +94,7 @@
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </BaseModal>
   </BaseLayout>
 </template>
 
@@ -108,6 +102,7 @@
 import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
 import BaseLayout from '@/components/layout/BaseLayout.vue';
+import BaseModal from '@/components/ui/BaseModal.vue';
 import { useApi } from '@/composables/useApi';
 
 definePageMeta({
@@ -153,7 +148,7 @@ async function fetchProjects() {
     const response = await api.get('/projects');
     projects.value = response.data;
   } catch {
-    projects.value = [];
+    error.value = 'Não foi possível carregar os projetos.';
   } finally {
     loading.value = false;
   }

@@ -21,6 +21,10 @@ html {
 
   --shadow-tint: rgba(20, 184, 166, 0.18);
   --shadow-tint-soft: rgba(20, 184, 166, 0.1);
+  --focus-ring: #5eead4;
+  --focus-ring-offset: var(--bg);
+  --radius-card: 1.25rem;
+  --radius-control: .75rem;
 }
 
 /* =========================
@@ -59,6 +63,8 @@ html.theme-dark {
   --danger-text: #fda4af;
 
   --success-text: #34d399;
+  --focus-ring: #5eead4;
+  --focus-ring-offset: #08111f;
 
   --gradient-1: rgba(45, 212, 191, 0.12);
   --gradient-2: rgba(15, 118, 110, 0.16);
@@ -95,6 +101,8 @@ html.theme-light {
   --danger-text: #be123c;
 
   --success-text: #047857;
+  --focus-ring: #0f766e;
+  --focus-ring-offset: #f5f8f7;
 
   --gradient-1: rgba(13, 148, 136, 0.08);
   --gradient-2: rgba(15, 23, 42, 0.05);
@@ -125,15 +133,40 @@ select {
   -webkit-tap-highlight-color: transparent;
 }
 
+:where(button, a, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+:where(button, a, input, textarea, select):focus:not(:focus-visible) {
+  outline: none;
+}
+
 button:disabled {
   cursor: not-allowed;
 }
 
 .surface-card {
   border: 1px solid var(--border);
-  border-radius: 1.25rem;
+  border-radius: var(--radius-card);
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   box-shadow: 0 18px 40px -28px var(--shadow-tint);
+}
+
+.field {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.field::placeholder {
+  color: var(--text-muted);
+}
+
+.field:focus {
+  border-color: var(--border-hover);
+  box-shadow: 0 0 0 4px var(--accent-soft-bg);
 }
 
 .page-kicker {
@@ -231,6 +264,16 @@ button:disabled {
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
   }
+
+  @media (max-width: 639px) {
+    .workspace-header {
+      position: sticky;
+    }
+
+    .workspace-shell main {
+      padding: 1rem;
+    }
+  }
 }
 
 /* Public pages share a quiet, layered surface language with the homepage. */
@@ -258,20 +301,6 @@ button:disabled {
   position: relative;
 }
 
-.public-hero::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: -4rem;
-  left: -3rem;
-  width: 15rem;
-  height: 12rem;
-  border-radius: 999px;
-  background: var(--accent-gradient-a);
-  filter: blur(46px);
-  opacity: .8;
-}
-
 .public-hero::after {
   content: "";
   position: absolute;
@@ -286,16 +315,7 @@ button:disabled {
 }
 
 .public-hero-orb {
-  position: absolute;
-  left: -5rem;
-  top: 2rem;
-  width: 18rem;
-  height: 8rem;
-  border-radius: 999px;
-  background: var(--accent-gradient-a);
-  filter: blur(42px);
-  opacity: .7;
-  pointer-events: none;
+  display: none;
 }
 
 .public-main .rounded-2xl,
