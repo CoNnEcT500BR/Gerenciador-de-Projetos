@@ -27,9 +27,11 @@ Plataforma de colaboração para equipes gerenciarem projetos, tarefas e comunic
 
 ### Módulo 3: Tarefas e Workflow
 - CRUD de tarefas dentro de projetos
-- Estados de tarefas: `pendente`, `em andamento`, `concluída`
-- Comentários ou notas associadas a tarefas
-- Anexos de arquivo (opcional)
+- Quadro Kanban com estados `PENDING`, `IN_PROGRESS` e `DONE`
+- Alteração de estado persistida pela API
+- Atribuição de responsáveis e prazos (próxima etapa de backend)
+- Comentários ou notas associadas a tarefas (planejado)
+- Anexos associados a tarefas (planejado; hoje os anexos pertencem ao chat/projeto)
 
 ### Módulo 4: Chat em Tempo Real
 - Salas de chat por projeto
@@ -44,8 +46,10 @@ Plataforma de colaboração para equipes gerenciarem projetos, tarefas e comunic
 
 ### Módulo 6: Dashboard e Relatórios
 - Visão geral de projetos e tarefas
-- Gráficos de progresso de sprints ou etapas
-- Atividades recentes
+- Progresso calculado a partir das tarefas existentes
+- Tarefas atualizadas recentemente
+- Atividades recentes com trilha de auditoria (próxima etapa)
+- Gráficos de progresso de sprints ou etapas (planejado)
 - Métricas de usuários e colaboração
 
 ### Módulo 7: Administração e Segurança
@@ -53,6 +57,24 @@ Plataforma de colaboração para equipes gerenciarem projetos, tarefas e comunic
 - Controle de permissões
 - Hardening básico: CORS, Helmet, validação
 - Logs simples de ações importantes
+
+## Evolução da dashboard e do workspace
+
+### Disponível com os contratos atuais
+- A dashboard agrega projetos, contagens e progresso usando `GET /projects`.
+- O quadro global e o quadro de cada projeto usam os estados aceitos pelo backend: `PENDING`, `IN_PROGRESS` e `DONE`. A mudança persiste por `PATCH /tasks/:id/status`.
+- A página de projeto organiza visão geral, tarefas, arquivos, conversa e equipe em seções próprias, preservando o CRUD existente.
+- A seção de arquivos reúne anexos encontrados nas 50 mensagens mais recentes retornadas por `GET /chat/projects/:projectId/messages`. Upload e download continuam usando as rotas de chat já existentes.
+- Chat em tempo real, notificações, gestão de membros e perfil continuam usando as funções e rotas existentes.
+
+### Próximas integrações de backend
+1. **Responsáveis por tarefa:** adicionar `assigneeId` opcional em `Task`, relação com `User` e índice no banco. No `PATCH /tasks/:id`, aceitar apenas um responsável que seja membro do projeto; retornar dados mínimos do responsável nas consultas e emitir notificação quando houver atribuição ou remoção. A UI deve oferecer “Sem responsável” e seleção entre membros do projeto.
+2. **Prazo e prioridade:** adicionar `dueDate` e `priority` com validação e defaults explícitos. Expor filtros por prazo, prioridade e pessoa no quadro; não inferir prazos nem prioridades no frontend.
+3. **Biblioteca de arquivos do projeto:** criar `GET /projects/:id/attachments` com paginação por cursor, ordenação consistente e metadados de quem enviou e quando. Manter autorização por participação no projeto e o endpoint de download autenticado. A aba atual informa que sua lista cobre apenas as 50 mensagens mais recentes até a biblioteca dedicada existir.
+4. **Atividade recente confiável:** registrar eventos persistentes (ator, projeto, tipo de entidade, ação, data e referência) para criação/edição/mudança de status, atribuição, anexos e mensagens. Expor um feed paginado para a dashboard; até lá, a seção recente é baseada em `Task.updatedAt`.
+5. **Relatórios e administração:** após existir histórico de eventos e permissões administrativas, adicionar gráficos por período/projeto, carga por pessoa e telas de administração com controle de acesso. Evitar apresentar métricas não suportadas pela API.
+
+As telas podem antecipar os pontos de extensão visualmente, mas controles de atribuição, prazo, prioridade, feed e administração só devem ser habilitados quando os contratos e a autorização correspondentes estiverem implementados.
 
 ## Estrutura Técnica
 
@@ -63,7 +85,8 @@ Plataforma de colaboração para equipes gerenciarem projetos, tarefas e comunic
   - `/dashboard`
   - `/projects`
   - `/projects/[id]`
-  - `/chat`
+  - `/tasks`
+  - `/messages`
   - `/profile`
 - Componentes:
   - `ProjectCard`, `TaskList`, `ChatRoom`, `NotificationPanel`
@@ -105,27 +128,25 @@ Plataforma de colaboração para equipes gerenciarem projetos, tarefas e comunic
 
 ## Planejamento por fases
 
-### Fase 1: Base e Autenticação
-- Configuração inicial do frontend e backend
-- Configuração do Prisma e MySQL
-- Implementação de cadastro e login
-- Criação da tela de dashboard base
+### Fase 1: Base e autenticação — existente
+- Frontend, backend, banco, cadastro, login e perfil.
 
-### Fase 2: Projetos e Tarefas
-- CRUD de projetos
-- Associações de membros
-- CRUD de tarefas
-- Páginas de projeto e tarefa
+### Fase 2: Projetos, equipe e tarefas — existente
+- CRUD de projetos, membros e tarefas; quadro de estados persistidos pela API.
 
-### Fase 3: Realtime e Notificações
-- Integração Socket.io
-- Chat por sala de projeto
-- Notificações em tempo real
+### Fase 3: Realtime e notificações — existente
+- Chat por projeto, anexos do chat, presença e notificações.
 
-### Fase 4: Dashboard e Administração
-- Painel de métricas e gráficos
-- Tela de administração
-- Ajustes de UI e usabilidade
+### Fase 4: Workspace e experiência de execução — em evolução
+- Dashboard baseada em dados reais, navegação consistente, Kanban global e abas por projeto.
+- Refinar métricas sem inventar dados e manter acessibilidade/responsividade.
+
+### Fase 5: Backend de produtividade — próxima
+- Responsáveis, prazos, prioridades, filtros e biblioteca completa de arquivos.
+- Migrações de banco, validação, autorização, respostas da API e testes para cada contrato.
+
+### Fase 6: Atividade, relatórios e administração — planejada
+- Feed persistente, análises por período/equipe e administração protegida por papéis.
 
 ## Entregáveis Esperados
 - Documentação clara e organizada
@@ -133,4 +154,3 @@ Plataforma de colaboração para equipes gerenciarem projetos, tarefas e comunic
 - Código com TypeScript e boas práticas
 - Banco de dados relacional funcional
 - Apresentação de features no GitHub
-

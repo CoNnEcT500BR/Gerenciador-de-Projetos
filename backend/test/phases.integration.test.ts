@@ -166,6 +166,10 @@ describe('Fases 1, 2 e 3 - integração', () => {
       transports: ['websocket'],
       extraHeaders: { Cookie: owner.cookie }
     });
+    const duplicateOwnerSocket = createClient(baseUrl, {
+      transports: ['websocket'],
+      extraHeaders: { Cookie: owner.cookie }
+    });
     const memberSocket = createClient(baseUrl, {
       transports: ['websocket'],
       extraHeaders: { Cookie: member.cookie }
@@ -175,13 +179,24 @@ describe('Fases 1, 2 e 3 - integração', () => {
       extraHeaders: { Cookie: outsider.cookie }
     });
 
-    await Promise.all([connectSocket(ownerSocket), connectSocket(memberSocket), connectSocket(outsiderSocket)]);
+    await Promise.all([
+      connectSocket(ownerSocket),
+      connectSocket(duplicateOwnerSocket),
+      connectSocket(memberSocket),
+      connectSocket(outsiderSocket)
+    ]);
     const ownerJoin = await new Promise<{ ok: boolean }>((resolve) => ownerSocket.emit('joinRoom', projectId, resolve));
     const memberJoin = await new Promise<{ ok: boolean }>((resolve) => memberSocket.emit('joinRoom', projectId, resolve));
     const outsiderJoin = await new Promise<{ ok: boolean; error?: string }>((resolve) => outsiderSocket.emit('joinRoom', projectId, resolve));
+    const duplicateOwnerJoin = await new Promise<{ ok: boolean }>((resolve) => duplicateOwnerSocket.emit('joinRoom', projectId, resolve));
     assert.equal(ownerJoin.ok, true);
     assert.equal(memberJoin.ok, true);
+    assert.equal(duplicateOwnerJoin.ok, true);
     assert.equal(outsiderJoin.ok, false);
+
+    const duplicatePresence = waitForEvent<{ count: number }>(memberSocket, 'presence');
+    duplicateOwnerSocket.emit('joinRoom', projectId, () => {});
+    assert.equal((await duplicatePresence).count, 2);
 
     const received = waitForEvent<{ content: string }>(memberSocket, 'receiveMessage');
     const sent = await new Promise<{ ok: boolean }>((resolve) => {
@@ -195,6 +210,7 @@ describe('Fases 1, 2 e 3 - integração', () => {
     assert.ok((await history.json()).some((message: { content: string }) => message.content === 'Mensagem de integração'));
 
     ownerSocket.disconnect();
+    duplicateOwnerSocket.disconnect();
     memberSocket.disconnect();
     outsiderSocket.disconnect();
   });

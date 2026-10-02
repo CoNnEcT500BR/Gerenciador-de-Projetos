@@ -11,22 +11,42 @@
     </div>
     <div class="mt-5 max-h-80 space-y-3 overflow-y-auto">
       <p v-if="messages.length === 0" class="text-sm text-[color:var(--text-muted)]">Nenhuma mensagem ainda.</p>
-      <div v-for="message in messages" :key="message.id" class="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-2)]/70 p-3">
-        <div class="flex items-center justify-between gap-3">
-          <span class="text-sm font-semibold text-[color:var(--text)]">{{ message.user.name }}</span>
-          <span class="text-xs text-[color:var(--text-muted)]">{{ formatTime(message.createdAt) }}</span>
-        </div>
-        <p class="mt-1 text-sm text-[color:var(--text-muted)]">{{ message.content }}</p>
-        <a
-          v-if="message.attachment"
-          :href="attachmentUrl(message.attachment.downloadUrl)"
-          target="_blank"
-          rel="noreferrer"
-          class="mt-3 inline-flex max-w-full items-center gap-2 rounded-xl border border-[color:var(--border)] px-3 py-2 text-xs font-semibold text-[color:var(--text-info)] hover:bg-[color:var(--surface-soft)]"
+      <div
+        v-for="message in messages"
+        :key="message.id"
+        class="flex"
+        :class="isOwnMessage(message) ? 'justify-end' : 'justify-start'"
+      >
+        <article
+          class="w-fit max-w-[90%] rounded-2xl border p-3"
+          :class="isOwnMessage(message)
+            ? 'border-[color:var(--accent-soft-border)] bg-[color:var(--accent-soft-bg)]'
+            : 'border-[color:var(--border)] bg-[color:var(--surface-2)]/70'"
         >
-          <span class="truncate">{{ message.attachment.originalName }}</span>
-          <span class="shrink-0 text-[color:var(--text-muted)]">{{ formatSize(message.attachment.size) }}</span>
-        </a>
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex min-w-0 items-center gap-2">
+              <span class="truncate text-sm font-semibold text-[color:var(--text)]">{{ message.user.name }}</span>
+              <span
+                v-if="isOwnMessage(message)"
+                class="shrink-0 rounded-full bg-[color:var(--surface)] px-2 py-0.5 text-[10px] font-semibold text-[color:var(--text-info)]"
+              >
+                Você
+              </span>
+            </div>
+            <span class="shrink-0 text-xs text-[color:var(--text-muted)]">{{ formatTime(message.createdAt) }}</span>
+          </div>
+          <p class="mt-1 break-words text-sm text-[color:var(--text)]">{{ message.content }}</p>
+          <a
+            v-if="message.attachment"
+            :href="attachmentUrl(message.attachment.downloadUrl)"
+            target="_blank"
+            rel="noreferrer"
+            class="mt-3 inline-flex max-w-full items-center gap-2 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)]/70 px-3 py-2 text-xs font-semibold text-[color:var(--text-info)] hover:bg-[color:var(--surface-soft)]"
+          >
+            <span class="truncate">{{ message.attachment.originalName }}</span>
+            <span class="shrink-0 text-[color:var(--text-muted)]">{{ formatSize(message.attachment.size) }}</span>
+          </a>
+        </article>
       </div>
     </div>
     <form class="mt-4 space-y-3" @submit.prevent="submit">
@@ -49,14 +69,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useChat } from '@/composables/useChat';
+import { useChat, type ChatMessage } from '@/composables/useChat';
+import { useAuthStore } from '@/stores/auth';
 
 const props = defineProps<{ projectId: number }>();
 const { messages, onlineCount, error, connected, start, sendMessage, uploadAttachment } = useChat(props.projectId);
+const authStore = useAuthStore();
 const draft = ref('');
 const selectedFile = ref<File | null>(null);
 const sending = ref(false);
 const config = useRuntimeConfig();
+
+function isOwnMessage(message: ChatMessage) {
+  return authStore.user?.id === message.user.id;
+}
 
 function formatTime(value: string) {
   return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });

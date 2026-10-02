@@ -140,14 +140,27 @@ erDiagram
 - Login / Registro
 - Dashboard
 - Lista de projetos
-- Detalhe de projeto
-- Detalhe de tarefa
-- Chat por projeto
+- Quadro global de tarefas (A fazer, Em andamento, Concluídas)
+- Detalhe de projeto com abas: Visão geral, Tarefas, Arquivos, Conversa e Equipe
+- Chat e anexos por projeto
 - Perfil do usuário
-- Administração
+- Administração (planejada)
 
 ### Layout visual
 
 - Barra lateral de navegação
 - Área principal com cards e listas
 - Header com notificações e perfil
+- Paleta teal e azul-escuro compartilhada com a página inicial, compatível com tema claro/escuro
+- Responsivo e operável por teclado, com estados de carregamento, erro e vazio
+
+### Extensões previstas para o backend
+
+- Responsáveis, prazos e prioridades nas tarefas; enquanto a API não persistir esses dados, a interface não apresenta responsáveis fictícios.
+- Biblioteca completa de arquivos do projeto. Até existir um endpoint paginado, a aba Arquivos é montada a partir das 50 mensagens mais recentes do chat.
+- Feed de atividade persistente e relatórios. As tarefas recentes da dashboard usam os dados de atualização de tarefa disponíveis; não representam um histórico completo de ações.
+
+### Comportamentos de interface
+
+- Métricas e barras de progresso mostram “Sem tarefas” quando ainda não há dados para calcular uma porcentagem.
+- A presença do chat contabiliza usuários únicos por projeto, mesmo quando a mesma pessoa abre mais de uma conexão.
