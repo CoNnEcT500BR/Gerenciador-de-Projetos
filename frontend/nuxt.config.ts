@@ -5,6 +5,10 @@ export default defineNuxtConfig({
 
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss'],
 
+  tailwindcss: {
+    viewer: false
+  },
+
   css: ['@/assets/css/tailwind.css'],
 
   app: {

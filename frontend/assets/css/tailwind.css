@@ -88,6 +88,7 @@ html.theme-light {
 
   --border: rgba(16, 65, 72, 0.18);
   --border-hover: rgba(16, 65, 72, 0.36);
+  --border-shadow: #0d9488;
 
   --primary: #0f766e;
 
@@ -433,6 +434,7 @@ html.high-contrast {
   --text-muted: #fff;
   --border: #fff;
   --border-hover: #ffff00;
+  --border-shadow: #ffff00;
   --primary: #00ffff;
   --bg-button: #ffff00;
   --bg-button-hover: #fff;
